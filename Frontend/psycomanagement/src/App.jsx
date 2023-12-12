@@ -1,10 +1,10 @@
 import "./App.css";
-import CustomNavbar from "./components/Navbar/mainNavbar";
+import LoginPage from "./pages/home/loginPage";
 
 function App() {
   return (
     <>
-      <CustomNavbar />
+      <LoginPage />
     </>
   );
 }
