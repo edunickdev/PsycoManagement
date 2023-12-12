@@ -1,16 +1,23 @@
-from typing import Union
-
 from fastapi import FastAPI
+from schemas.therapist_schema import therapistEntityList, therapistEntity
+from routes.therapist import therapist
+
 
 app = FastAPI()
+app.title = "PsycoAdmin API"
+app.include_router(therapist)
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+# @app.get("/test", tags=["Root"])
+# def find_all_therapist():
+#     cursor = user_collection.find()
+#     return therapistEntityList(cursor)
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+# @app.post("/auth", tags=["Authentication"])
+# def register_therapist(therapist: Therapist):
+#     data = dict(therapist)
+#     new_id = user_collection.insert_one(data).inserted_id
+#     return f"Registro realizado, nuevo usuario con id: {new_id}"
+
 
