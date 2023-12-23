@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import Cards from "./cards";
 
 const SectionCards = () => {
-  const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
-  const { title, description } = data;
 
   useEffect(() => {
     const getData = () => {
