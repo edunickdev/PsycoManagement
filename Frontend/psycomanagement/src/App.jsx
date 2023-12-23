@@ -1,11 +1,15 @@
+import { NextUIProvider } from "@nextui-org/react";
 import "./App.css";
-import LoginPage from "./pages/home/loginPage";
+import { AuthContextProvider } from "./context/AuthContext";
+import { AppRouter } from "./routers/routes";
 
 function App() {
   return (
-    <>
-      <LoginPage />
-    </>
+    <NextUIProvider>
+      <AuthContextProvider>
+        <AppRouter />
+      </AuthContextProvider>
+    </NextUIProvider>
   );
 }
 
