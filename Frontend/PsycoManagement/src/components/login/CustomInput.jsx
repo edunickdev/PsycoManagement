@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 
 const CustomInput = ({ name, label, type, validations = {}, register, errors }) => {
+
   return (
     <div className="flex flex-col justify-start">
       <label htmlFor={name} className="my-2 font-semibold ml-2">

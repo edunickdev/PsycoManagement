@@ -1,8 +1,15 @@
 import { useForm } from "react-hook-form";
 import CustomInput from "./CustomInput";
 import { staticFiles } from "../../config/statics";
+import { useContext } from "react";
+import { AuthTherapist } from "../../context/AuthContext";
+
+
 
 const LoginForm = () => {
+
+  const { SignUp } = useContext(AuthTherapist);
+
   const {
     register,
     handleSubmit,
@@ -10,18 +17,20 @@ const LoginForm = () => {
     reset,
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      console.log(data);
+      const response = await SignUp(data.email, data.password);
+      console.log(response);
+      return response;
+    } catch (error) {
+      alert(error.message);
+    }
     reset();
   };
 
-  console.log(errors);
-
-  // const listValidations = (validations) => {
-
-  // };
-
   return (
+    
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col justify-around items-center h-auto w-96 z-20 bg-blue-500 mt-10 md:mt-20 rounded-xl p-10 border-3 border-blue-300"
@@ -36,10 +45,6 @@ const LoginForm = () => {
             value: true,
             message: "Este campo es requerido",
           },
-          pattern: {
-            value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-            message: "Debe ser un correo válido",
-          },
         }}
         register={register}
         errors={errors}
@@ -52,6 +57,10 @@ const LoginForm = () => {
           required: {
             value: true,
             message: "Este campo es requerido",
+          },
+          minLength: {
+            value: 8,
+            message: "Debe tener al menos 8 caracteres",
           },
         }}
         register={register}

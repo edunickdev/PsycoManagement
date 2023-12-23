@@ -17,3 +17,4 @@ def register_therapist(therapist: Therapist):
 def login_therapist():
     cursor = user_collection.find()
     return therapistEntityList(cursor)
+

@@ -1,118 +1,45 @@
-import {
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  Link,
-  Button,
-  DropdownItem,
-  DropdownTrigger,
-  Dropdown,
-  DropdownMenu,
-} from "@nextui-org/react";
-import {
-  ChevronDown,
-  Lock,
-  Activity,
-  Flash,
-  Server,
-  TagUser,
-  Scale,
-} from "./Icons.jsx";
-import { MainLogo } from "./AcmeLogo.jsx";
+import { Link } from "react-router-dom";
+import { Avatar, Button } from "@nextui-org/react";
+import { staticFiles } from "../../config/statics";
 
-export default function CustomNavbar() {
-  const icons = {
-    chevron: <ChevronDown fill="currentColor" size={16} />,
-    scale: <Scale className="text-warning" fill="currentColor" size={30} />,
-    lock: <Lock className="text-success" fill="currentColor" size={30} />,
-    activity: (<Activity className="text-secondary" fill="currentColor" size={30} />),
-    flash: <Flash className="text-primary" fill="currentColor" size={30} />,
-    server: <Server className="text-success" fill="currentColor" size={30} />,
-    user: <TagUser className="text-danger" fill="currentColor" size={30} />,
-  };
-
+const Navbar = () => {
   return (
-    <Navbar>
-      <NavbarContent className="sm:flex gap-4" justify="center">
-        <Dropdown>
-          <NavbarItem>
-            <DropdownTrigger>
-              <Button
-                disableRipple
-                className="p-0 bg-transparent data-[hover=true]:bg-transparent"
-                endContent={icons.chevron}
-                radius="sm"
-                variant="light"
-              >
-                Features
-              </Button>
-            </DropdownTrigger>
-          </NavbarItem>
-          <DropdownMenu
-            aria-label="ACME features"
-            className="w-[340px]"
-            itemClasses={{
-              base: "gap-4",
-            }}
-          >
-            <DropdownItem
-              key="autoscaling"
-              description="ACME scales apps to meet user demand, automagically, based on load."
-              startContent={icons.scale}
-            >
-              Autoscaling
-            </DropdownItem>
-            <DropdownItem
-              key="usage_metrics"
-              description="Real-time metrics to debug issues. Slow query added? We’ll show you exactly where."
-              startContent={icons.activity}
-            >
-              Usage Metrics
-            </DropdownItem>
-            <DropdownItem
-              key="production_ready"
-              description="ACME runs on ACME, join us and others serving requests at web scale."
-              startContent={icons.flash}
-            >
-              Production Ready
-            </DropdownItem>
-            <DropdownItem
-              key="99_uptime"
-              description="Applications stay on the grid with high availability and high uptime guarantees."
-              startContent={icons.server}
-            >
-              +99% Uptime
-            </DropdownItem>
-            <DropdownItem
-              key="supreme_support"
-              description="Overcome any challenge with a supporting team ready to respond."
-              startContent={icons.user}
-            >
-              +Supreme Support
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-        <NavbarBrand>
-          <MainLogo />
-          <p className="font-bold text-inherit">PsycoManagement</p>
-        </NavbarBrand>
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page">
-            Customers
+    <nav className="grid grid-cols-12 h-20 bg-blue-900 mb-1 shadow-md shadow-gray-800 fixed w-full">
+      <div className="col-span-2"></div>
+      <div className="col-span-8">
+        <ul className="flex justify-between items-center h-full text-2xl text-gray-300">
+          <li>
+            <Link to={"/tools"}>LectorIA</Link>
+          </li>
+          <li>
+            <Link to={"/dashboards"}>Dashboard</Link>
+          </li>
+          <Link to={"/home"}>
+            <div className="flex items-center bg-white -mb-16 relative rounded-full p-4 shadow-md shadow-gray-800">
+              <img
+                src={staticFiles.mainLogo}
+                alt={staticFiles.mainLogo}
+                className="relative z-10 w-28 h-28 object-contain"
+              />
+            </div>
           </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
+          <li>
+            <Link to={"/consultants"}>Consultantes</Link>
+          </li>
+          <li>
+            <Link to={"/calendar"}>Agenda</Link>
+          </li>
+        </ul>
+      </div>
+      <div className="col-span-2 flex justify-self-center items-center">
+        <Button className="ml-20 rounded-full">
+          <Link to={"/auth"}>
+            <Avatar showFallback />
           </Link>
-        </NavbarItem>
-      </NavbarContent>
-      <NavbarContent justify="end">
-        <NavbarItem>
-          <Link href="#">Login</Link>
-        </NavbarItem>
-      </NavbarContent>
-    </Navbar>
+        </Button>
+      </div>
+    </nav>
   );
-}
+};
+
+export default Navbar;
