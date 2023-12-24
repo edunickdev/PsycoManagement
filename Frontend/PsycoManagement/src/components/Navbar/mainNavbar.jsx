@@ -1,33 +1,36 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Avatar, Button } from "@nextui-org/react";
 import { staticFiles } from "../../config/statics";
 
 const Navbar = () => {
+  const path = useLocation();
+  const currentPath = path.pathname;
+
   return (
-    <nav className="grid grid-cols-12 h-20 bg-blue-900 mb-1 shadow-md shadow-gray-800 fixed w-full">
+    <nav className="grid grid-cols-12 bg-blue-900 mb-1 shadow-md shadow-gray-800 fixed w-full py-1">
       <div className="col-span-2"></div>
       <div className="col-span-8">
         <ul className="flex justify-between items-center h-full text-2xl text-gray-300">
           <li>
-            <Link to={"/tools"}>LectorIA</Link>
+            <Link to={"/tools"} className={`${currentPath === "/home" ? "hidden" : ""}`}>LectorIA</Link>
           </li>
           <li>
-            <Link to={"/dashboards"}>Dashboard</Link>
+            <Link to={"/dashboards"} className={`${currentPath === "/home" ? "hidden" : ""}`}>Dashboard</Link>
           </li>
           <Link to={"/home"}>
-            <div className="flex items-center bg-white -mb-16 relative rounded-full p-4 shadow-md shadow-gray-800">
+            <div className="flex items-center bg-white -mb-12 relative rounded-full p-2 shadow-md shadow-gray-800">
               <img
                 src={staticFiles.mainLogo}
                 alt={staticFiles.mainLogo}
-                className="relative z-10 w-28 h-28 object-contain"
+                className="relative z-10 w-20 h-20 object-contain"
               />
             </div>
           </Link>
           <li>
-            <Link to={"/consultants"}>Consultantes</Link>
+            <Link to={"/consultants"} className={`${currentPath === "/home" ? "hidden" : ""}`}>Consultantes</Link>
           </li>
           <li>
-            <Link to={"/calendar"}>Agenda</Link>
+            <Link to={"/calendar"} className={`${currentPath === "/home" ? "hidden" : ""}`}>Agenda</Link>
           </li>
         </ul>
       </div>

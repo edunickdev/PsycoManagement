@@ -6,6 +6,8 @@ import ShortHome from "../assets/short-home.mp4";
 import Equipo from "../assets/equipo.jpg";
 import Idea from "../assets/idea.jpg";
 import Terapia from "../assets/terapia.jpg";
+import logoLinkeind from "../assets/logoLinkedin.svg";
+import logoInstagram from "../assets/logoInstagram.svg";
 
 export const staticFiles = {
     fondoLogin: FondoLogin,
@@ -15,5 +17,7 @@ export const staticFiles = {
     shortHome: ShortHome,
     equipo: Equipo,
     idea: Idea,
-    terapia: Terapia
+    terapia: Terapia,
+    logoLinkeind: logoLinkeind,
+    logoInstagram: logoInstagram,
 }
