@@ -9,7 +9,6 @@ const ContentSignUp = () => {
   const postSignUp = ({ data }) => {
     const urlApi = "http://127.0.0.1:8000/auth/sign-up"
     const requestData = {
-      id_therapist: data.id,
       names: data.Nombre + " " + data.Apellido,
       email: data.Email
     }
@@ -23,8 +22,11 @@ const ContentSignUp = () => {
   };
 
   const onSubmit = async (data) => {
-    JSON.stringify(data);
-    const response = postSignUp({ data });
+    const response = postSignUp({ data })
+      .then((res) => {
+        res.ok ? console.log("Usuario creado") : console.log("Error al crear usuario")
+        res.json()
+      })
     reset();
   };
 
