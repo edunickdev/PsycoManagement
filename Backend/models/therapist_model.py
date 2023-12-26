@@ -3,7 +3,6 @@ from pydantic import BaseModel, Field
 from datetime import datetime
 
 class Therapist(BaseModel):
-    id_therapist: Optional[str] = Field(max_length=40, min_length=1)
     register_date: str = Field(default=datetime.now().strftime("%Y/%m/%d %H:%M"))
     names: str = Field(max_length=40, min_length=5)
     genre: str = Field(default="Sin especificar", max_length=15, min_length=8)
