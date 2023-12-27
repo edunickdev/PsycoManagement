@@ -1,33 +1,39 @@
 import { Button, Input } from "@nextui-org/react";
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import bcrypt from "bcryptjs";
 
 const ContentSignUp = () => {
   const[mode, setMode] = useState(false);
   const { control, handleSubmit, formState: { errors }, reset } = useForm();
 
-  const postSignUp = ({ data }) => {
+  const postSignUp = async ({ data }) => {
     const urlApi = "http://127.0.0.1:8000/auth/sign-up"
+    const hashedPassword = await bcrypt.hash(data.Password, 10);
     const requestData = {
       names: data.Nombre + " " + data.Apellido,
-      email: data.Email
-    }
+      email: data.Email,
+      password: hashedPassword,
+    };
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestData),
     };
-    const res = fetch(urlApi, requestOptions)
+    const res = await fetch(urlApi, requestOptions)
     return res;
   };
 
   const onSubmit = async (data) => {
-    const response = postSignUp({ data })
-      .then((res) => {
-        res.ok ? console.log("Usuario creado") : console.log("Error al crear usuario")
-        res.json()
-      })
-    reset();
+    const response = await postSignUp({ data });
+    const responseObject = await response.json();
+
+    if (responseObject.registered === 'usuario creado') {
+      alert('Usuario registrado correctamente');
+      reset();
+    } else {
+      alert(responseObject.message);
+    }
   };
 
   const fields = [
