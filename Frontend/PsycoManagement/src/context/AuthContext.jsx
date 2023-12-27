@@ -9,6 +9,8 @@ export const AuthTherapist = createContext();
 export const AuthContextProvider = ({ children }) => {
     const [ user, setUser ] = useState(null);
 
+    
+
     const SignUp = ( email, password ) => {
         return createUserWithEmailAndPassword(auth, email, password);
     }
