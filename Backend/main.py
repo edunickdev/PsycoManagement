@@ -1,10 +1,13 @@
 from fastapi import FastAPI
-from schemas.therapist_schema import therapistEntityList, therapistEntity
 from routes.therapist import therapist
 from routes.homeinfo import homeinfo
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import HTTPAuthorizationCredentials
+from fastapi import Depends, HTTPException
+from bson import ObjectId
 
 app = FastAPI()
+
 app.title = "PsycoAdmin API"
 app.include_router(therapist)
 app.include_router(homeinfo)
