@@ -36,16 +36,54 @@ const ContentSignUp = () => {
     return res;
   };
 
-  const onSubmit = async (data) => {
-    const response = await postSignUp({ data });
-    const responseObject = await response.json();
+  const postSignIn = async ({ data }) => {
+    const urlApi = "http://127.0.0.1:8000/auth/login"
+    // const hashedPassword = await bcrypt.hash(data.Password, 10);
+    const requestData = {
+      email: data.Email,
+      password: data.Password,
+    };
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestData),
+    };
+    const res = await fetch(urlApi, requestOptions)
+    return res;
+  };
 
-    if (responseObject.registered === 'usuario creado') {
-      notify({ text: responseObject.message, type: "success" })
-      setMode(!mode);
-      reset();
-    } else {
-      notify({ text: responseObject.message, type: "error" })
+  const onSubmit = async (data) => {
+    
+    const decisionObject = async () => {
+      if ( mode ) {
+        const response = await postSignIn({ data });
+        return response.json();
+      } else if ( !mode) {
+        const response = await postSignUp({ data });
+        return response.json();
+      }
+    }
+
+    const responseObject = await decisionObject();
+
+    switch (responseObject.status) {
+      case "usuario ya existe":
+        notify({ text: responseObject.message, type: "warn" })
+        reset();
+        break;
+      case "usuario creado":
+        notify({ text: responseObject.message, type: "success" })
+        setMode(!mode);
+        reset();
+        break;
+      // case "usuario no existe":
+      //   break;
+      case "inicio exitoso":
+        notify({ text: responseObject.message, type: "success" })
+        reset();
+        break;
+      default:
+        break;
     }
   };
 
@@ -110,7 +148,7 @@ const ContentSignUp = () => {
               onSubmit={handleSubmit(onSubmit)}
               className="flex flex-col justify-center"
             >
-              {fields.map((input) => {
+              { mode ? fields.slice(2, 4).map((input) => {
                 return (
                   <Controller
                     type={input.type}
@@ -125,7 +163,29 @@ const ContentSignUp = () => {
                         labelPlacement="inside"
                         label={field.name}
                         {...field}
-                        className={`py-[2px] w-60 ${mode === true && input.name === "Nombre" || mode === true && input.name == "Apellido" ? "hidden" : ""}`}
+                        className={`py-[2px] w-60`}
+                        size="sm"
+                        errorMessage={errors[input.name]?.message}
+                      />
+                    )}
+                  />
+                );
+              }): fields.slice(0,4).map((input) => {
+                return (
+                  <Controller
+                    type={input.type}
+                    key={input.name}
+                    rules={input.validations}
+                    name={input.name}
+                    control={control}
+                    defaultValue=""
+                    render={({ field }) => (
+                      <Input
+                        type={input.type}
+                        labelPlacement="inside"
+                        label={field.name}
+                        {...field}
+                        className={`py-[2px] w-60`}
                         size="sm"
                         errorMessage={errors[input.name]?.message}
                       />

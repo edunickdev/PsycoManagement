@@ -1,10 +1,9 @@
-from typing import Optional
 from pydantic import BaseModel, Field
 from datetime import datetime
 
 class Therapist(BaseModel):
     register_date: str = Field(default=datetime.now().strftime("%Y/%m/%d %H:%M"))
-    names: str = Field(max_length=40, min_length=5)
+    names: str = Field(default="Sin nombre", max_length=40, min_length=5)
     genre: str = Field(default="Sin especificar", max_length=15, min_length=8)
     birth_date: str = Field(default="Sin especificar", max_length=15, min_length=8) 
     age: int = Field(default=datetime.now().year)
