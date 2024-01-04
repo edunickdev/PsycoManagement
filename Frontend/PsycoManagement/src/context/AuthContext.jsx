@@ -41,9 +41,10 @@ export const AuthContextProvider = ({ children }) => {
         return res;
       };
 
-      const storeToken = ({ token }) => {
+      const storeToken = ({ token, id }) => {
         if (token) {
             localStorage.setItem("token", token);
+            localStorage.setItem("id", id);
         } else {
             null
         }
@@ -54,13 +55,18 @@ export const AuthContextProvider = ({ children }) => {
         return token;
       }
 
+      const getId = () => {
+        const token = localStorage.getItem("id");
+        return token;
+      }
+
       const logOff = () => {
         localStorage.removeItem("token");
         setUser(null);
       }
 
 
-    return <AuthTherapist.Provider value={{ user, postSignIn, postSignUp, storeToken, getToken, logOff }}>{children}</AuthTherapist.Provider>
+    return <AuthTherapist.Provider value={{ user, postSignIn, postSignUp, storeToken, getToken, getId, logOff }}>{children}</AuthTherapist.Provider>
 }
 
 export const TherapistAuth = () => {

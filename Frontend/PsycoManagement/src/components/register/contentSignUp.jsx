@@ -30,7 +30,8 @@ const ContentSignUp = () => {
       if ( mode ) {
         let response = await TherapistAuth.postSignIn({ data });
         response = await response.json();
-        TherapistAuth.storeToken({ token: response.token });
+        console.log(response);
+        TherapistAuth.storeToken({ token: response.token, id: response.id });
         return response
       } else if ( !mode) {
         const response = await TherapistAuth.postSignUp({ data });

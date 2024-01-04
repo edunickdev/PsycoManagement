@@ -9,11 +9,13 @@ def verify_therapist_credentials(email: str, password: str):
     user = user_collection.find_one({"email": email})
     if user and bcrypt.checkpw(password.encode("utf-8"), user["password"].encode("utf-8")):
         token = generate_token(email=email)
+        id_user = str(user['_id'])
         return JSONResponse(
             content={
                 "message": "Inicio de sesión correcto",
                 "status": "inicio exitoso",
-                "token": token
+                "token": token,
+                "id": id_user
             },
             status_code=200
         )
@@ -22,7 +24,8 @@ def verify_therapist_credentials(email: str, password: str):
             content={
                     "message": "Credenciales incorrectos",
                     "status": "información incorrecta",
-                    "token": ""
+                    "token": "",
+                    "id": ""
                 },
             status_code=403
         )

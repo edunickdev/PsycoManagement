@@ -1,31 +1,35 @@
 /* eslint-disable react/prop-types */
 import { Button } from "@nextui-org/react";
 
-const ConsultantItem = ({ consultant = [] }) => {
+const ConsultantItem = ({ consultant }) => {
+
+  const initials = consultant.names.split("")[0] + consultant.last_names.split("")[0];
+  const age = new Date().getFullYear() - consultant.birth_date.split("/")[2];
+
   return (
     <Button
       key={consultant.id_consultant}
       className="shadow-sm shadow-gray-600 h-44 w-60 bg-slate-300 grid grid-cols-5 p-2 text-gray-800 hover:shadow-md hover:shadow-gray-600 transition-all duration-300"
     >
       <div className="col-span-2 row-span-1 flex items-center justify-center bg-slate-600 w-14 h-14 rounded-lg">
-        <span className="text-3xl text-white">JM</span>
+        <span className="text-3xl text-white">{initials}</span>
       </div>
       <div className="col-span-3 flex items-center whitespace-normal">
         <p className="text-small text-start overflow-hidden -ml-6">
-          Eduard Nicolás Sarmiento Herrera
+          {consultant.names} {consultant.last_names}
         </p>
       </div>
       <div className="col-span-2">
         <p className="text-tiny text-center font-bold">Contacto:</p>
-        <p className="text-tiny text-center">3115833055</p>
+        <p className="text-tiny text-center">{consultant.phone}</p>
       </div>
       <div className="col-span-3">
         <p className="text-tiny font-bold">Edad:</p>
-        <p className="text-tiny text-center">32 años</p>
+        <p className="text-tiny text-center">{age} años</p>
       </div>
       <div className="col-span-2 text-center">
         <p className="text-tiny font-bold">Status:</p>
-        <p className="text-tiny">Activo</p>
+        <p className="text-tiny">{consultant.status}</p>
       </div>
       <div className="col-span-3 text-center">
         <p className="text-tiny font-bold">Pagos pendientes: </p>
