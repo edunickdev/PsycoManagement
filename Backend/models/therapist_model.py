@@ -14,5 +14,4 @@ class Therapist(BaseModel):
     type_document: str = Field(default="Cédula de ciudadanía", max_length=25, min_length=8)
     document_number: int = Field(default=0)
     status: str = Field(default="Activo", max_length=15, min_length=5)
-    token: str = Field(default="Sin especificar", min_length=1)
     

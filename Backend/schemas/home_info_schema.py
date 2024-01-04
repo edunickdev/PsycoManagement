@@ -8,7 +8,7 @@ def homeInfoEntity(HomeInfo) -> dict:
         'description': HomeInfo["description"],
         'image': HomeInfo["image"],
         'status': HomeInfo["status"],
-        'created_at': HomeInfo["created_at"],
+        'created_at': HomeInfo["created_at"]
     }
     
 def homeInfoEntityList(homeInfos) -> list[dict]:
