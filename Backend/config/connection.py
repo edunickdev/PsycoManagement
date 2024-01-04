@@ -1,14 +1,19 @@
-from fastapi.security import HTTPBearer
+from urllib.parse import quote_plus
 from pymongo import MongoClient
+from dotenv import load_dotenv
+from os import getenv
 
-secret_key = "pruebaspsicoadmin"
-security = HTTPBearer()
+load_dotenv()
 
-connection = MongoClient("mongodb://localhost:27017/")
+password = quote_plus(getenv('pass'))
+user = quote_plus(getenv('mail'))
+
+connection = MongoClient(f"mongodb+srv://{user}:{password}@psycoadmin-cluster.rjpmk7x.mongodb.net/?retryWrites=true&w=majority")
 db = connection["PsycoAdmin"]
 
 user_collection = db["User"]
 home_collection = db["Home"]
+consultants_collection = db["Consultants"]
 
 
 

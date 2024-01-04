@@ -1,27 +1,28 @@
-from typing import Optional
 from pydantic import BaseModel, Field
+from datetime import datetime
+
 
 class Consultant(BaseModel):
-    id_consultant: Optional[str]
-    id_therapist: str
-    creation_date: str
-    names: str
-    last_names: str
-    type_document: int
-    document_number: int
-    phone: int
-    email: str
-    country: str
-    city: str
-    address: str
-    regimen: str
-    eps: str
-    birth_date: str
-    num_contact_emergency: int
-    isChild: bool
-    email_responsible: str
-    phone_responsible: int
-    names_responsible: str
-    status: str
+    id_therapist: str = Field(default="prueba")
+    creation_date: str = Field(default=datetime.now().strftime("%Y/%m/%d %H:%M"))
+    names: str = Field(max_length=40, min_length=4)
+    last_names: str = Field(max_length=40, min_length=3)
+    type_document: str = Field(min_length=2)
+    document_number: int = Field(default=0)
+    phone: int = Field(default=0)
+    email: str = Field(max_length=50, min_length=10)
+    country: str = Field(min_length=3)
+    city: str = Field(min_length=3)
+    address: str = Field(min_length=5)
+    regimen: str = Field(min_length=5)
+    eps: str = Field(min_length=5)
+    birth_date: str = Field(min_length=6)
+    num_contact_emergency: int = Field(default=0)
+    isChild: str = Field(default="false")
+    email_responsible: str = Field(max_length=50, min_length=10 )
+    phone_responsible: int = Field(default=0)
+    names_responsible: str = Field(max_length=50, min_length=4)
+    status: str = Field(default="Activo")
+    annotations: list[str] = Field(default=[])
 
     

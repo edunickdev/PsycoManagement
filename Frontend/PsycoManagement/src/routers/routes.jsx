@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import  AuthPage  from "../pages/AuthPage";
 import  HomePage  from "../pages/HomePage";
 import { TherapistAuth } from "../context/AuthContext";
+import ConsultanPage from "../pages/ConsultanPage";
 
 export const AppRouter = () => {
   const { user } = TherapistAuth();
@@ -18,12 +19,17 @@ export const AppRouter = () => {
         <Route
           path="/home"
           element={
-            // <RequireAuth>
+            <RequireAuth>
               <HomePage />
-            // </RequireAuth>
+            </RequireAuth>
           }
         />
         <Route path="/" element={<Navigate to="/auth" />} />
+        <Route path="/consultants" element={
+          // <RequireAuth>
+            <ConsultanPage />
+          // </ RequireAuth>
+        } />
       </Routes>
     </BrowserRouter>
   );

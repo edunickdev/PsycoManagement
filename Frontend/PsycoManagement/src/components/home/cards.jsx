@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
 import { Button, Card, CardFooter, Image, ModalFooter, Modal, ModalContent, ModalHeader, ModalBody, useDisclosure } from "@nextui-org/react";
 import { staticFiles } from "../../config/statics";
+import { useNavigate } from "react-router-dom";
 
 const Cards = ({ data }) => {
     const { subtitle, image, description, title } = data;
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const route = useNavigate();
 
   return (
     <Card
@@ -36,7 +38,10 @@ const Cards = ({ data }) => {
                 <Button color="danger" variant="light" onPress={onClose}>
                   Cerrar
                 </Button>
-                <Button color="success" onPress={onClose}>
+                <Button color="success" onPress={() => {
+                  onClose
+                  route('/auth')
+                }}>
                   Registrate
                 </Button>
               </ModalFooter>

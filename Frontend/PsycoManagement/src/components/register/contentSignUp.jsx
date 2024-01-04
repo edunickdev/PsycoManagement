@@ -1,11 +1,15 @@
 import { Button, Input } from "@nextui-org/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import bcrypt from "bcryptjs";
+import { AuthTherapist } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const ContentSignUp = () => {
+  const TherapistAuth = useContext(AuthTherapist);
+  const route = useNavigate();
+
   const notify = ({ text, type }) => {
     toast[type](text, {
       position: "top-right",
@@ -13,53 +17,23 @@ const ContentSignUp = () => {
       hideProgressBar: false,
       closeOnClick: true,
       draggable: true,
+      theme: "colored",
     });
   };
 
   const[mode, setMode] = useState(false);
   const { control, handleSubmit, formState: { errors }, reset } = useForm();
 
-  const postSignUp = async ({ data }) => {
-    const urlApi = "http://127.0.0.1:8000/auth/sign-up"
-    const hashedPassword = await bcrypt.hash(data.Password, 10);
-    const requestData = {
-      names: data.Nombre + " " + data.Apellido,
-      email: data.Email,
-      password: hashedPassword,
-    };
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(requestData),
-    };
-    const res = await fetch(urlApi, requestOptions)
-    return res;
-  };
-
-  const postSignIn = async ({ data }) => {
-    const urlApi = "http://127.0.0.1:8000/auth/login"
-    // const hashedPassword = await bcrypt.hash(data.Password, 10);
-    const requestData = {
-      email: data.Email,
-      password: data.Password,
-    };
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(requestData),
-    };
-    const res = await fetch(urlApi, requestOptions)
-    return res;
-  };
-
   const onSubmit = async (data) => {
     
     const decisionObject = async () => {
       if ( mode ) {
-        const response = await postSignIn({ data });
-        return response.json();
+        let response = await TherapistAuth.postSignIn({ data });
+        response = await response.json();
+        TherapistAuth.storeToken({ token: response.token });
+        return response
       } else if ( !mode) {
-        const response = await postSignUp({ data });
+        const response = await TherapistAuth.postSignUp({ data });
         return response.json();
       }
     }
@@ -76,11 +50,14 @@ const ContentSignUp = () => {
         setMode(!mode);
         reset();
         break;
-      // case "usuario no existe":
-      //   break;
+      case "información incorrecta":
+        notify({ text: responseObject.message, type: "error" })
+        reset();
+        break;
       case "inicio exitoso":
         notify({ text: responseObject.message, type: "success" })
         reset();
+        route("/home");
         break;
       default:
         break;
