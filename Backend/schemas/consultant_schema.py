@@ -20,7 +20,9 @@ def consultantEntity(Consultant) -> dict:
         "email_responsible": Consultant["email_responsible"], 
         "phone_responsible": Consultant["phone_responsible"], 
         "names_responsible": Consultant["names_responsible"], 
-        "status": Consultant["status"]
+        "status": Consultant["status"],
+        "last_update": Consultant["last_update"],
+        "annotations": Consultant["annotations"]
     }
     
 def consultantEntityList(consultants) -> list[dict]:

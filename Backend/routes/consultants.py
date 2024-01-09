@@ -1,16 +1,16 @@
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from models.consultant_model import Consultant
-from config.connection import consultants_collection
+from config.connection import get_collection
 from schemas.consultant_schema import consultantEntityList
 
 
 consultant = APIRouter()
 
 
-@consultant.get("/consultants", tags=["Therapist"])
+@consultant.get("/consultants/{id_therapist}", tags=["Therapist"])
 def get_therapist_consultants( id_therapist: str ):
-    cursor = consultants_collection.find( {"id_therapist": str(id_therapist)} )
+    cursor = get_collection("Consultants").find( {"id_therapist": str(id_therapist)} )
     consultants = consultantEntityList(cursor)
     return JSONResponse(
         content={
@@ -25,8 +25,8 @@ def get_therapist_consultants( id_therapist: str ):
 @consultant.post("/consultants/new-consultant", tags=["Therapist"])
 async def create_new_consultant( consultant: Consultant ):
     new_consultant = dict(consultant)
-    first_condition = consultants_collection.find({"email": consultant.email})
-    second_condition = consultants_collection.find({"document_number": consultant.document_number})
+    first_condition = get_collection("Consultants").find({"email": consultant.email})
+    second_condition = get_collection("Consultants").find({"document_number": consultant.document_number})
     if first_condition or second_condition:
         return JSONResponse(
             content={
@@ -35,7 +35,7 @@ async def create_new_consultant( consultant: Consultant ):
             },
             status_code=401            
         )
-    new_id = consultants_collection.insert_one(new_consultant).inserted_id
+    new_id = get_collection("Consultants").insert_one(new_consultant).inserted_id
     new_consultant["_id"] = str(new_id)
     return JSONResponse(
         content={

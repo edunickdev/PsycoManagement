@@ -1,3 +1,4 @@
+from typing import Collection
 from urllib.parse import quote_plus
 from pymongo import MongoClient
 from dotenv import load_dotenv
@@ -13,7 +14,11 @@ db = connection["PsycoAdmin"]
 
 user_collection = db["User"]
 home_collection = db["Home"]
-consultants_collection = db["Consultants"]
+annotations_collection = db["Annotations"]
+
+def get_collection(collection: str, myDB = db):
+    response = myDB[f"{collection}"]
+    return response
 
 
 

@@ -4,9 +4,9 @@ import { staticFiles } from "../../config/statics";
 import { useNavigate } from "react-router-dom";
 
 const Cards = ({ data }) => {
-    const { subtitle, image, description, title } = data;
-    const {isOpen, onOpen, onOpenChange} = useDisclosure();
-    const route = useNavigate();
+  const { subtitle, image, description, title } = data;
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const route = useNavigate();
 
   return (
     <Card
