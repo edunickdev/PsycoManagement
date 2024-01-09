@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useContext, useEffect, useState } from "react";
@@ -9,26 +10,29 @@ const SectionConsultant = () => {
 
   const TherapistAuth = useContext(AuthTherapist);
   
+  const id = TherapistAuth.getId();
   const [data, setData] = useState([]);
 
+  const getData = () => {
+    fetch(`http://127.0.0.1:8000/consultants/${id}`,)
+      .then((response) => response.json())
+      .then((person) => {
+        setData(person["consultants"]);
+      });
+    };
+
   useEffect (() => {
-    const getData = () => {
-      fetch("http://127.0.0.1:8000/consultants?id_therapist=658da3e92d4804b8445e80eb")
-        .then((response) => response.json())
-        .then((data) => {
-          setData(data["consultants"]);
-        });
-      };
     getData();
   }, []);
 
   return (
     <div className="col-span-12 row-span-1 py-5 mt-10 mx-10">
       <div className="flex flex-wrap gap-3">
-        {data.map((consultant, index) => { 
+        {data.length === 0 && <h1 className="text-2xl font-semibold text-center col-span-12">No tiene consultantes registrados</h1>}
+        {data.map((consultant, index) => {
           return (
             <ConsultantItem key={index} consultant={consultant} />
-          ); 
+          );
          })}
       </div>
     </div>

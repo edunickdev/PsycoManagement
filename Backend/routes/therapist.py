@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from config.jwt_functions import verify_token
 from config.verify_functions import verify_therapist_credentials
 from models.therapist_model import Therapist
-from config.connection import user_collection
+from config.connection import get_collection
 
 
 therapist = APIRouter()
@@ -11,7 +11,7 @@ therapist = APIRouter()
 
 @therapist.post("/auth/sign-up", tags=["Authentication"])
 def register_therapist(therapist: Therapist):
-    is_exist = user_collection.find_one({"email": therapist.email})
+    is_exist = get_collection("User").find_one({"email": therapist.email})
     if is_exist:
         return JSONResponse(
             content={
@@ -21,7 +21,7 @@ def register_therapist(therapist: Therapist):
             status_code=500
         )
     new_therapist = dict(therapist)
-    new_id = user_collection.insert_one(new_therapist).inserted_id
+    new_id = get_collection("User").insert_one(new_therapist).inserted_id
     new_therapist["_id"] = str(new_id)
     return JSONResponse(
         content={
