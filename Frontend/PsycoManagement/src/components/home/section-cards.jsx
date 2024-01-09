@@ -4,15 +4,16 @@ import Cards from "./cards";
 const SectionCards = () => {
   const [data, setData] = useState([]);
 
+  const getData = () => {
+    fetch("http://127.0.0.1:8000/home/")
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data);
+        console.log(data);
+      });
+  };
+  
   useEffect(() => {
-    const getData = () => {
-      fetch("http://127.0.0.1:8000/home/")
-        .then((response) => response.json())
-        .then((data) => {
-          setData(data);
-          console.log(data);
-        });
-    };
     getData();
   }, []);
 

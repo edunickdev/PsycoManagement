@@ -18,11 +18,12 @@ class Consultant(BaseModel):
     eps: str = Field(min_length=5)
     birth_date: str = Field(min_length=6)
     num_contact_emergency: int = Field(default=0)
-    isChild: str = Field(default="false")
+    isChild: bool = Field(default=False)
     email_responsible: str = Field(max_length=50, min_length=10 )
     phone_responsible: int = Field(default=0)
     names_responsible: str = Field(max_length=50, min_length=4)
     status: str = Field(default="Activo")
-    annotations: list[str] = Field(default=[])
+    last_update: str = Field(default="Sin modificaciones")
+    annotations: int = Field(default=0)
 
     
