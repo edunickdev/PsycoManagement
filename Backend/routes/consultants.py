@@ -23,10 +23,10 @@ def get_therapist_consultants( id_therapist: str ):
 
 
 @consultant.post("/consultants/new-consultant", tags=["Therapist"])
-async def create_new_consultant( consultant: Consultant ):
+def create_new_consultant( consultant: Consultant ):
     new_consultant = dict(consultant)
-    first_condition = get_collection("Consultants").find({"email": consultant.email})
-    second_condition = get_collection("Consultants").find({"document_number": consultant.document_number})
+    first_condition = get_collection("Consultants").find_one({"email": consultant.email})
+    second_condition = get_collection("Consultants").find_one({"document_number": consultant.document_number})
     if first_condition or second_condition:
         return JSONResponse(
             content={
