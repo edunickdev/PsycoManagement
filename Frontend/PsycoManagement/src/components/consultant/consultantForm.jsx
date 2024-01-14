@@ -1,28 +1,42 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { Autocomplete, AutocompleteItem, Button, Checkbox, Input, Tab, Tabs } from "@nextui-org/react";
+import {
+  Button,
+  Checkbox,
+  Tab,
+  Tabs,
+} from "@nextui-org/react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import SectionForm from "./SectionForm";
+import AutocompleteForm from "./AutoCompleteForm";
 
 const ConsultantForm = ({ data, onClose, isNew = false }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [isChild, setIsChild] = useState(data.isChild);
   const [selected, setSelected] = useState("consultant");
-  const listTD = ["CC", "TI", "CE", "PA", "RC", "NIT", "RUT", "DNI"];
 
-  const { control, handleSubmit, formState: { errors }, reset } = useForm();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
 
   const onSubmit = (data) => {
     console.log(data);
   };
 
   const getAnnotations = () => {
-    const annotations = fetch(`http://localhost:3000/api/annotations/${data.id_consultant}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((response) => response.json());
+    const annotations = fetch(
+      `http://localhost:3000/api/annotations/${data.id_consultant}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((response) => response.json());
 
     return annotations;
   };
@@ -48,287 +62,106 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
       >
         <Tab key="consultant" title="Consultante" className="col-span-12">
           <div className="h-80 overflow-y-auto py-1">
-            <div className="col-span-12 grid grid-cols-12 w-full gap-1">
-              <div className="col-span-6">
-                <Controller
-                  name="names"
-                  control={control}
-                  defaultValue={isNew ? `${data.names}` : ""}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      color="primary"
-                      size="sm"
-                      type="text"
-                      placeholder="Nombres"
-                      label="Nombres"
-                      labelPlacement="outside"
-                      error={errors.names}
-                      readOnly={!isEdit}
-                    />
-                  )}
-                />
-              </div>
-              <div className="col-span-6">
-                <Controller
-                  name="last_names"
-                  control={control}
-                  defaultValue={data.last_names}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      color="primary"
-                      size="sm"
-                      type="text"
-                      label="Apellidos"
-                      labelPlacement="outside"
-                      error={errors.last_names}
-                      readOnly={!isEdit}
-                    />
-                  )}
-                />
-              </div>
-            </div>
+            <SectionForm
+              isNew={isNew}
+              name={["names", "last_names"]}
+              control={control}
+              defaultValue={[data.names, data.last_names]}
+              label={["Nombres", "Apellidos"]}
+              error={[errors.names, errors.last_names]}
+              isEdit={isEdit}
+              amountElements={2}
+            />
             <div className="col-span-12 grid grid-cols-12 pt-2 gap-1">
-              <div className="col-span-4">
-                <Controller
-                  name="phone"
+              <SectionForm
+                isNew={isNew}
+                name={["phone"]}
+                control={control}
+                defaultValue={[data.phone]}
+                label={["Teléfono"]}
+                error={[errors.phone]}
+                isEdit={isEdit}
+                colSpan={4}
+                withWrap={false}
+                amountElements={1}
+              />
+              {!isEdit ? (
+                <SectionForm
+                  isNew={isNew}
+                  name={["type_document"]}
                   control={control}
-                  defaultValue={data.phone}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      color="primary"
-                      size="sm"
-                      type="text"
-                      label="Teléfono"
-                      labelPlacement="outside"
-                      error={errors.phone}
-                      readOnly={!isEdit}
-                    />
-                  )}
+                  defaultValue={[data.type_document]}
+                  label={["Tipo"]}
+                  error={[errors.type_document]}
+                  isEdit={isEdit}
+                  withWrap={false}
+                  colSpan={4}
+                  amountElements={1}
                 />
-              </div>
-              <div className="col-span-3">
-                <Controller
+              ) : (
+                <AutocompleteForm
                   name="type_document"
-                  control={control}
                   defaultValue={data.type_document}
-                  render={({ field }) =>
-                    isEdit ? (
-                      <Autocomplete
-                        {...field}
-                        size="sm"
-                        label="Tipo"
-                        color="primary"
-                        labelPlacement="outside"
-                        defaultInputValue={data.type_document}
-                      >
-                        {listTD.map((item, index) => (
-                          <AutocompleteItem
-                            key={index}
-                            value={item}
-                            color="primary"
-                          >
-                            {item}
-                          </AutocompleteItem>
-                        ))}
-                      </Autocomplete>
-                    ) : (
-                      <Input
-                        {...field}
-                        color="primary"
-                        size="sm"
-                        type="text"
-                        label="Tipo"
-                        labelPlacement="outside"
-                        error={errors.type_document}
-                        readOnly={!isEdit}
-                      />
-                    )
-                  }
+                  defaultInputValue={data.type_document}
                 />
-              </div>
-              <div className="col-span-5">
-                <Controller
-                  name="document_number"
-                  control={control}
-                  defaultValue={data.document_number}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      color="primary"
-                      size="sm"
-                      type="text"
-                      label="Número documento"
-                      labelPlacement="outside"
-                      error={errors.document_number}
-                      readOnly={!isEdit}
-                    />
-                  )}
-                />
-              </div>
+              )}
+              <SectionForm
+                isNew={isNew}
+                name={["document_number"]}
+                control={control}
+                defaultValue={[data.document_number]}
+                label={["Número documento"]}
+                error={[errors.document_number]}
+                isEdit={isEdit}
+                colSpan={4}
+                amountElements={1}
+                withWrap={false}
+              />
             </div>
-            <div className="col-span-12 grid grid-cols-12 pt-2">
-              <div className="col-span-6 px-1">
-                <Controller
-                  name="email"
-                  control={control}
-                  defaultValue={data.email}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      color="primary"
-                      size="sm"
-                      type="text"
-                      label="Correo electrónico"
-                      labelPlacement="outside"
-                      error={errors.email}
-                      readOnly={!isEdit}
-                    />
-                  )}
-                />
-              </div>
-              <div className="col-span-6 px-1">
-                <Controller
-                  name="address"
-                  control={control}
-                  defaultValue={data.address}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      color="primary"
-                      size="sm"
-                      type="text"
-                      label="Dirección"
-                      labelPlacement="outside"
-                      error={errors.address}
-                      readOnly={!isEdit}
-                    />
-                  )}
-                />
-              </div>
-            </div>
-            <div className="col-span-12 grid grid-cols-12 pt-2">
-              <div className="col-span-6 px-1">
-                <Controller
-                  name="city"
-                  control={control}
-                  defaultValue={data.city}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      color="primary"
-                      size="sm"
-                      type="text"
-                      label="Ciudad"
-                      labelPlacement="outside"
-                      error={errors.city}
-                      readOnly={!isEdit}
-                    />
-                  )}
-                />
-              </div>
-              <div className="col-span-6 px-1">
-                <Controller
-                  name="country"
-                  control={control}
-                  defaultValue={data.country}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      color="primary"
-                      size="sm"
-                      type="text"
-                      label="País"
-                      labelPlacement="outside"
-                      error={errors.country}
-                      readOnly={!isEdit}
-                    />
-                  )}
-                />
-              </div>
-            </div>
-            <div className="col-span-12 grid grid-cols-12 pt-2">
-              <div className="col-span-4 px-1">
-                <Controller
-                  name="regimen"
-                  control={control}
-                  defaultValue={data.regimen}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      color="primary"
-                      size="sm"
-                      type="text"
-                      label="regimen"
-                      labelPlacement="outside"
-                      error={errors.regimen}
-                      readOnly={!isEdit}
-                    />
-                  )}
-                />
-              </div>
-              <div className="col-span-4 px-1">
-                <Controller
-                  name="eps"
-                  control={control}
-                  defaultValue={data.eps}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      color="primary"
-                      size="sm"
-                      type="text"
-                      label="Gestor de salud"
-                      labelPlacement="outside"
-                      error={errors.eps}
-                      readOnly={!isEdit}
-                    />
-                  )}
-                />
-              </div>
-              <div className="col-span-4 px-1">
-                <Controller
-                  name="status"
-                  control={control}
-                  defaultValue={data.status}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      color="primary"
-                      size="sm"
-                      type="text"
-                      label="Status"
-                      labelPlacement="outside"
-                      error={errors.status}
-                      readOnly={!isEdit}
-                    />
-                  )}
-                />
-              </div>
-            </div>
-            <div className="col-span-12 grid grid-cols-12 mt-3">
+            <SectionForm
+              isNew={isNew}
+              name={["email", "address"]}
+              control={control}
+              defaultValue={[data.email, data.address]}
+              label={["Correo electrónico", "Dirección"]}
+              error={[errors.email, errors.address]}
+              isEdit={isEdit}
+              amountElements={2}
+            />
+            <SectionForm
+              isNew={isNew}
+              name={["city", "country"]}
+              control={control}
+              defaultValue={[data.city, data.country]}
+              label={["Ciudad", "País"]}
+              error={[errors.city, errors.country]}
+              isEdit={isEdit}
+              amountElements={2}
+            />
+            <SectionForm
+              isNew={isNew}
+              name={["regimen", "eps", "status"]}
+              control={control}
+              defaultValue={[data.regimen, data.eps, data.status]}
+              label={["regimen", "eps", "status"]}
+              error={[errors.regimen, errors.eps, errors.status]}
+              isEdit={isEdit}
+              amountElements={3}
+            />
+            <div className="col-span-12 grid grid-cols-12 mt-3 gap-1">
+              <SectionForm
+                isNew={isNew}
+                name={["birth_date"]}
+                control={control}
+                defaultValue={[data.birth_date]}
+                label={["Fecha de nacimiento"]}
+                error={[errors.birth_date]}
+                isEdit={isEdit}
+                withWrap={false}
+                colSpan={6}
+                amountElements={1}
+              />
               <div className="col-span-6">
-                <Controller
-                  name="birth_date"
-                  control={control}
-                  defaultValue={data.birth_date}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      color="primary"
-                      size="sm"
-                      type="text"
-                      label="Fecha de nacimiento"
-                      labelPlacement="outside"
-                      error={errors.birth_date}
-                      readOnly={!isEdit}
-                    />
-                  )}
-                />
-              </div>
-              <div className="col-span-6 pl-4 flex items-center">
                 <Controller
                   name="isChild"
                   control={control}
@@ -355,79 +188,45 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
         {isChild ? (
           <Tab key="responsible" title="Responsable" className="col-span-12">
             <div className="col-span-12 grid grid-cols-12 px-1 w-full h-80 content-start">
-              <div className="col-span-12 px-1">
-                <Controller
-                  name="names_responsible"
+
+                <SectionForm
+                  isNew={isNew}
+                  name={["names_responsible"]}
                   control={control}
-                  defaultValue={data.names_responsible}
-                  render={({ field }) => (
-                    <Input
-                      {...field}
-                      color="primary"
-                      size="sm"
-                      type="text"
-                      placeholder="Nombres acudiente"
-                      label="Nombres acudiente"
-                      labelPlacement="outside"
-                      error={errors.names_responsible}
-                      readOnly={!isEdit}
-                    />
-                  )}
+                  defaultValue={[data.names_responsible]}
+                  label={["Nombres acudiente"]}
+                  error={[errors.names_responsible]}
+                  isEdit={isEdit}
+                  amountElements={1}
                 />
-              </div>
-              <div className="col-span-12 grid grid-cols-12">
-                <div className="col-span-6 px-1">
-                  <Controller
-                    name="phone_responsible"
-                    control={control}
-                    defaultValue={data.phone_responsible}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        color="primary"
-                        size="sm"
-                        type="text"
-                        label="Teléfono acudiente"
-                        labelPlacement="outside"
-                        error={errors.phone_responsible}
-                        readOnly={!isEdit}
-                      />
-                    )}
-                  />
-                </div>
-                <div className="col-span-6 px-1">
-                  <Controller
-                    name="email_responsible"
-                    control={control}
-                    defaultValue={data.email_responsible}
-                    render={({ field }) => (
-                      <Input
-                        {...field}
-                        color="primary"
-                        size="sm"
-                        type="text"
-                        label="Email acudiente"
-                        labelPlacement="outside"
-                        error={errors.email_responsible}
-                        readOnly={!isEdit}
-                      />
-                    )}
-                  />
-                </div>
-              </div>
+              <SectionForm
+                isNew={isNew}
+                name={["phone_responsible", "email_responsible"]}
+                control={control}
+                defaultValue={[data.phone_responsible, data.email_responsible]}
+                label={["Teléfono acudiente", "Email acudiente"]}
+                error={[errors.phone_responsible, errors.email_responsible]}
+                isEdit={isEdit}
+                amountElements={2}
+              />
             </div>
           </Tab>
         ) : null}
         {data.annotations > 0 ? (
-          <Tab key="annotations" title={data.annotations === 1 ? `${data.annotations} Anotación` : `${data.annotations} Anotaciones`} className="col-span-12">
+          <Tab
+            key="annotations"
+            title={
+              data.annotations === 1
+                ? `${data.annotations} Anotación`
+                : `${data.annotations} Anotaciones`
+            }
+            className="col-span-12"
+          >
             <div className="col-span-12 grid grid-cols-12 px-1 w-full h-80 content-start"></div>
           </Tab>
         ) : null}
       </Tabs>
-      <div className="col-span-12 flex flex-wrap justify-end item pt-2">
-        <Button color="danger" variant="light" onPress={onClose}>
-          {isEdit ? "Cancelar" : "Cerrar"}
-        </Button>
+      <div className="col-span-12 flex flex-wrap justify-center item pt-2">
         <Button
           {...(isEdit ? { disabled: false } : { disabled: true })}
           className="mx-1"
@@ -439,8 +238,8 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
         >
           Guardar
         </Button>
-        <Button color="primary" onPress={allowEdit}>
-          Editar
+        <Button color={isEdit ? "danger" : "primary"} onPress={allowEdit}>
+          {isEdit ? "Cancelar" : "Editar"}
         </Button>
       </div>
     </form>
