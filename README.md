@@ -1,8 +1,10 @@
 # PsycoManagement
-Proyecto enfocado en facilitar el manejo de información y pacientes para profesionales en psicología especialmente freelance, busca alinearse con la norma colombiana vigente referente al manejo y la gestión de datos y la historia clinica de los consultantes, por lo anterior este proyecto busca crear una plataforma web en principio que centralice e integre multiples soluciones de software favorables al gremio de la Psicología.
-
-El desarrollo del lado del frontend sera en React, mientras que el lado del Backend sera en FastAPI, autenticacion con firebase y contendra una herramienta empoderada con IA.
-
+Solución WEB pensada y enfocada en los Psicologos, siguiendo los lineamientos dados por la legislación Colombiana sobre Historias Clinicas, esta aplicación esta pensada en manejar de forma segura y confiable la información de los pacientes de cada Psicologo, su desarrollo en el lado front es en React, su desarrollo en el lado Backend es en FastAPI, usa base de datos NoSQL MongoDB.
 ** Aspectos claves **
 
-desarrollo movil previsto en Flutter.
+Tecnologías:
+Frontend = React
+Backend = FastAPI
+Base de datos = MongoDB
+Versión Móvil = (Aún en planificación) Sera implementado con Flutter
+
