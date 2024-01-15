@@ -1,18 +1,13 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import {
-  Button,
-  Checkbox,
-  Tab,
-  Tabs,
-} from "@nextui-org/react";
+import { Button, Checkbox, Tab, Tabs } from "@nextui-org/react";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import SectionForm from "./SectionForm";
 import AutocompleteForm from "./AutoCompleteForm";
 
 const ConsultantForm = ({ data, onClose, isNew = false }) => {
-  const [isEdit, setIsEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(isNew ? true : false);
   const [isChild, setIsChild] = useState(data.isChild);
   const [selected, setSelected] = useState("consultant");
 
@@ -143,7 +138,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
               name={["regimen", "eps", "status"]}
               control={control}
               defaultValue={[data.regimen, data.eps, data.status]}
-              label={["regimen", "eps", "status"]}
+              label={["Regimen", "EPS", "Estatus"]}
               error={[errors.regimen, errors.eps, errors.status]}
               isEdit={isEdit}
               amountElements={3}
@@ -188,17 +183,16 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
         {isChild ? (
           <Tab key="responsible" title="Responsable" className="col-span-12">
             <div className="col-span-12 grid grid-cols-12 px-1 w-full h-80 content-start">
-
-                <SectionForm
-                  isNew={isNew}
-                  name={["names_responsible"]}
-                  control={control}
-                  defaultValue={[data.names_responsible]}
-                  label={["Nombres acudiente"]}
-                  error={[errors.names_responsible]}
-                  isEdit={isEdit}
-                  amountElements={1}
-                />
+              <SectionForm
+                isNew={isNew}
+                name={["names_responsible"]}
+                control={control}
+                defaultValue={[data.names_responsible]}
+                label={["Nombres acudiente"]}
+                error={[errors.names_responsible]}
+                isEdit={isEdit}
+                amountElements={1}
+              />
               <SectionForm
                 isNew={isNew}
                 name={["phone_responsible", "email_responsible"]}
@@ -238,9 +232,11 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
         >
           Guardar
         </Button>
-        <Button color={isEdit ? "danger" : "primary"} onPress={allowEdit}>
-          {isEdit ? "Cancelar" : "Editar"}
-        </Button>
+        {!isNew ? (
+          <Button color={isEdit ? "danger" : "primary"} onPress={allowEdit}>
+            {isEdit ? "Cancelar" : "Editar"}
+          </Button>
+        ) : null}
       </div>
     </form>
   );
