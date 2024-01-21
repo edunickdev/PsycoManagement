@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from config.jwt_functions import JWTBearer
 from models.home_info_model import HomeInfo
 from config.connection import get_collection
 from schemas.home_info_schema import homeInfoEntityList
@@ -7,7 +8,7 @@ from schemas.home_info_schema import homeInfoEntityList
 homeinfo = APIRouter()
 
 
-@homeinfo.get("/home", tags=["Home"])
+@homeinfo.get("/home", tags=["Home"], dependencies=[Depends(JWTBearer())])
 def find_all_home_info():
     cursor = get_collection("Home").find()
     return homeInfoEntityList(cursor)
