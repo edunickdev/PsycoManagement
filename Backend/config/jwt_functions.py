@@ -1,3 +1,5 @@
+from fastapi import Request
+from fastapi.security import HTTPBearer
 from jwt import encode, decode, exceptions
 from datetime import datetime, timedelta
 from os import getenv
@@ -5,6 +7,11 @@ from dotenv import load_dotenv
 from fastapi.responses import JSONResponse
 
 load_dotenv()
+
+class JWTBearer(HTTPBearer):
+    async def __call__(self, request: Request):
+        auth = await super().__call__(request)
+        data = verify_token(auth.credentials)
 
 
 def expire(minutes: int) -> int:
@@ -21,7 +28,8 @@ def generate_token(email: str) -> str:
 def verify_token(token: str, output: bool = False):
     try:
         if output:
-            return decode(token, key=getenv("SECRET_KEY"), algorithms=["HS256"])
+            data: dict = decode(token, key=getenv("SECRET_KEY"), algorithms=["HS256"])
+            return data
         decode(token, key=getenv("SECRET_KEY"), algorithms=["HS256"])
     except exceptions.ExpiredSignatureError:
         return JSONResponse(
@@ -30,6 +38,6 @@ def verify_token(token: str, output: bool = False):
             )
     except exceptions.DecodeError:
         return JSONResponse(
-                content={"message": "Invalid Token"}, 
+                content={"message": "No fue posible validar el token"}, 
                 status_code=401
             )

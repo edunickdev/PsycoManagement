@@ -1,15 +1,18 @@
 /* eslint-disable react/prop-types */
-import { Button } from "@nextui-org/react";
+import { Button, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from "@nextui-org/react";
+import ConsultantForm from "./consultantForm";
 
 const ConsultantItem = ({ consultant }) => {
 
   const initials = consultant.names.split("")[0] + consultant.last_names.split("")[0];
   const age = new Date().getFullYear() - consultant.birth_date.split("/")[2];
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   return (
     <Button
       key={consultant.id_consultant}
       className="shadow-sm shadow-gray-600 h-44 w-60 bg-slate-300 grid grid-cols-5 p-2 text-gray-800 hover:shadow-md hover:shadow-gray-600 transition-all duration-300"
+      onPress={onOpen}
     >
       <div className="col-span-2 row-span-1 flex items-center justify-center bg-slate-600 w-14 h-14 rounded-lg">
         <span className="text-3xl text-white">{initials}</span>
@@ -35,6 +38,28 @@ const ConsultantItem = ({ consultant }) => {
         <p className="text-tiny font-bold">Pagos pendientes: </p>
         <p className="text-tiny">al día</p>
       </div>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1 w-auto">
+                <div className="flex justify-between items-center">
+                  <h3>Historia clínica</h3>
+                  <div className="flex flex-col">
+                    <span className="text-tiny font-bold">Fecha de creación:</span>
+                    <span className="text-tiny">{consultant.creation_date}</span>
+                    <span className="text-tiny font-bold">Fecha última modificación:</span>
+                    <span className="text-tiny">{consultant.last_update}</span>
+                  </div>
+                </div>
+              </ModalHeader>
+              <ModalBody>
+                  <ConsultantForm data={consultant} onClose={onClose} />
+              </ModalBody>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </Button>
   );
 };
