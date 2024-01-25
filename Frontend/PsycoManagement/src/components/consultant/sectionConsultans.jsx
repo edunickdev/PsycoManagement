@@ -29,9 +29,10 @@ const SectionConsultant = () => {
     <div className="col-span-12 row-span-1 py-5 mt-10 mx-10">
       <div className="flex flex-wrap gap-3">
         {data.length === 0 && <h1 className="text-2xl font-semibold text-center col-span-12">No tiene consultantes registrados</h1>}
-        {data.map((consultant, index) => {
+        {data.map((consultant) => {
+          console.log(consultant);
           return (
-            <ConsultantItem key={index} consultant={consultant} />
+            <ConsultantItem key={consultant.id_consultant} consultant={consultant} />
           );
          })}
       </div>

@@ -38,6 +38,6 @@ def verify_token(token: str, output: bool = False):
             )
     except exceptions.DecodeError:
         return JSONResponse(
-                content={"message": "No fue posible validar tu token"}, 
+                content={"message": "No fue posible validar el token"}, 
                 status_code=401
             )
