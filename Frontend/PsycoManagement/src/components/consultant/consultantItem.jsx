@@ -7,7 +7,6 @@ const ConsultantItem = ({ consultant }) => {
   const initials = consultant.names.split("")[0] + consultant.last_names.split("")[0];
   const age = new Date().getFullYear() - consultant.birth_date.split("/")[2];
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
-  console.log(consultant);
 
   return (
     <Button
