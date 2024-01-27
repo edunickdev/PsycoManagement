@@ -8,24 +8,28 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import Footer from "../components/footer/mainFooter";
-import Navbar from "../components/navbar/mainNavbar";
 import SectionConsultant from "../components/consultant/sectionConsultans";
 import ConsultantForm from "../components/consultant/consultantForm";
 import NewData from "../components/consultant/DataObject";
+import SearchIcon from '../assets/search.svg';
 
 const ConsultanPage = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
+  const searchIconStyle = {
+    width: '20px',  
+    height: '20px', 
+    color: 'primary',
+  };
+
   return (
     <div className="grid grid-cols-12">
-      <div className="col-span-12 grid-rows-1 z-30">
-        <Navbar />
-      </div>
       <div className="col-span-4 mt-24 px-10">
         <Input
           color="primary"
           size="sm"
-          type="text"
+          type="search"
+          //startContent={<img src={SearchIcon} alt="Search Icon" style={searchIconStyle}/>}
           placeholder="Busca tu consultante aquí..."
           label="Encuentra tu consultante más rápido"
           labelPlacement="outside"
