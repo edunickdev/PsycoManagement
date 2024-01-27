@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import SectionForm from "./SectionForm";
 import AutocompleteForm from "./AutoCompleteForm";
+import { get_consultants } from "../../services/therapist_services";
 
 const ConsultantForm = ({ data, onClose, isNew = false }) => {
   const [isEdit, setIsEdit] = useState(isNew ? true : false);
@@ -25,24 +26,19 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
   };
 
   const getAnnotations = () => {
-    const annotations = fetch(
-      `http://localhost:3000/api/annotations/${data.id_consultant}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).then((response) => response.json());
-
-    return annotations;
+    if (data.annotations > 0) {
+      
+      const annotations = get_consultants({ data });
+  
+      return annotations;
+    } else {
+      console.log("No tiene anotaciones");
+      return null;
+    }
   };
 
   const allowEdit = async () => {
     onClose;
-    if (data.annotations > 0) {
-      await getAnnotations();
-    }
     setIsEdit(!isEdit);
   };
 
@@ -210,6 +206,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
         ) : null}
         {data.annotations > 0 ? (
           <Tab
+            onClick={getAnnotations}
             key="annotations"
             title={
               data.annotations === 1
