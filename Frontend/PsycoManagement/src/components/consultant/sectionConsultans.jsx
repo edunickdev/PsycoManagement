@@ -14,7 +14,15 @@ const SectionConsultant = () => {
   const [data, setData] = useState([]);
 
   const getData = () => {
-    fetch(`http://127.0.0.1:8000/consultants/${id}`,)
+    fetch(`http://127.0.0.1:8000/consultants/${id}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then((response) => response.json())
       .then((person) => {
         setData(person["consultants"]);

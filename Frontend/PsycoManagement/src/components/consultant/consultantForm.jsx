@@ -14,10 +14,12 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
 
   const {
     control,
+    register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm();
+
 
   const onSubmit = (data) => {
     console.log(data);
