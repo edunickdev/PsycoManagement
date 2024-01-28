@@ -12,6 +12,7 @@ import SectionConsultant from "../components/consultant/sectionConsultans";
 import ConsultantForm from "../components/consultant/consultantForm";
 import NewData from "../components/consultant/DataObject";
 import SearchIcon from '../assets/search.svg';
+import { useState } from "react";
 
 const ConsultanPage = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -22,14 +23,19 @@ const ConsultanPage = () => {
     color: 'primary',
   };
 
+  const [inputValue, setInputValue] = useState("");
+  console.log(inputValue);
+
   return (
     <div className="grid grid-cols-12">
       <div className="col-span-4 mt-24 px-10">
         <Input
+          value={inputValue}
+          onValueChange={setInputValue}
           color="primary"
           size="sm"
           type="search"
-          //startContent={<img src={SearchIcon} alt="Search Icon" style={searchIconStyle}/>}
+          startContent={<img src={SearchIcon} alt="Search Icon" style={searchIconStyle}/>}
           placeholder="Busca tu consultante aquí..."
           label="Encuentra tu consultante más rápido"
           labelPlacement="outside"
@@ -59,7 +65,7 @@ const ConsultanPage = () => {
           </Modal>
         </Button>
       </div>
-      <SectionConsultant />
+      <SectionConsultant inputValue={inputValue} />
       <Footer />
     </div>
   );

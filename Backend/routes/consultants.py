@@ -1,5 +1,6 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
+from config.jwt_functions import JWTBearer
 from models.consultant_model import Consultant
 from config.connection import get_collection
 from schemas.consultant_schema import consultantEntityList
@@ -8,7 +9,7 @@ from schemas.consultant_schema import consultantEntityList
 consultant = APIRouter()
 
 
-@consultant.get("/consultants/{id_therapist}", tags=["Therapist"])
+@consultant.get("/consultants/{id_therapist}", tags=["Therapist"], dependencies=[Depends(JWTBearer())])
 def get_therapist_consultants( id_therapist: str ):
     cursor = get_collection("Consultants").find( {"id_therapist": str(id_therapist)} )
     consultants = consultantEntityList(cursor)
