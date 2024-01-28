@@ -1,3 +1,3 @@
 /psycoenv
-/venv/
 .env
+/__pycache__
