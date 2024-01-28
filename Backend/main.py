@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from routes.therapist import therapist
 from routes.homeinfo import homeinfo
 from routes.consultants import consultant
+from routes.events import event
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -11,6 +12,7 @@ app.title = "PsycoAdmin API"
 app.include_router(therapist)
 app.include_router(homeinfo)
 app.include_router(consultant)
+app.include_router(event)
 
 origin = {
     'http://localhost:5173',
