@@ -6,6 +6,7 @@ import { TherapistAuth } from "../context/AuthContext";
 import ConsultanPage from "../pages/ConsultanPage";
 import Navbar from "../components/Navbar/mainNavbar";
 import AgendaPage from "../pages/AgendaPage";
+import EventForm from "../components/calendar/EventForm";
 
 export const AppRouter = () => {
   const { user } = TherapistAuth();
@@ -34,6 +35,7 @@ export const AppRouter = () => {
           // </ RequireAuth>
         } />
         <Route path="/agenda" element={ <AgendaPage />} />
+        <Route path="/event-form" element={ <EventForm />} />
       </Routes>
     </BrowserRouter>
   );

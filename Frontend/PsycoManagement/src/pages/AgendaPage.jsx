@@ -1,14 +1,14 @@
 import Footer from "../components/footer/mainFooter";
 import CustomCalendar from "../components/calendar/Calendar";
-import Prueba from "../components/calendar/prueba";
-import Prueba2 from "../components/calendar/prueba2";
+import ConsultantListCard from "../components/calendar/consultants-list/ConsultantsList";
+import StatesCalendar from "../components/calendar/StatesCalendar";
 
 const AgendaPage = () => {
   return (
     <div className="grid grid-cols-12">
-      <Prueba />
+      <ConsultantListCard />
       <CustomCalendar />
-      <Prueba2 />
+      <StatesCalendar />
       <Footer />
     </div>
   );
