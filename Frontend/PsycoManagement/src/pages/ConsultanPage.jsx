@@ -24,8 +24,8 @@ const ConsultanPage = () => {
   };
 
   const [inputValue, setInputValue] = useState("");
-  console.log(inputValue);
 
+  
   return (
     <div className="grid grid-cols-12">
       <div className="col-span-4 mt-24 px-10">
