@@ -6,26 +6,21 @@ import { Controller, useForm } from "react-hook-form";
 import SectionForm from "./SectionForm";
 import AutocompleteForm from "./AutoCompleteForm";
 import { get_consultants } from "../../services/therapist_services";
+import AnnotationItem from "./AnnotationItem";
 
 const ConsultantForm = ({ data, onClose, isNew = false }) => {
   const [isEdit, setIsEdit] = useState(isNew ? true : false);
   const [isChild, setIsChild] = useState(data.isChild);
   const [selected, setSelected] = useState("consultant");
 
-  const {
-    control,
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
-
+  const {control, handleSubmit, formState: { errors }, reset} = useForm();
 
   const onSubmit = (data) => {
     console.log(data);
   };
 
-  const getAnnotations = () => {
+  const getAnnotations = (data) => {
+    console.log("ejecutando");
     if (data.annotations > 0) {
       
       const annotations = get_consultants({ data });
@@ -206,7 +201,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
         ) : null}
         {data.annotations > 0 ? (
           <Tab
-            onClick={getAnnotations}
+            onClick={getAnnotations(data)}
             key="annotations"
             title={
               data.annotations === 1
@@ -215,7 +210,10 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
             }
             className="col-span-12"
           >
-            <div className="col-span-12 grid grid-cols-12 px-1 w-full h-80 content-start"></div>
+            <div className="col-span-12 grid grid-cols-12 px-1 w-full h-80 content-start overflow-y-auto">
+              <AnnotationItem />
+              <AnnotationItem />
+            </div>
           </Tab>
         ) : null}
       </Tabs>
