@@ -10,7 +10,7 @@ event = APIRouter()
 
 # dependencies=[Depends(JWTBearer())]
 
-@event.get("/events/{therapist}", tags=["Events"] )
+@event.get("/events/{therapist}", tags=["Events"], dependencies=[Depends(JWTBearer())])
 def get_all_events_by_therapist(therapist: str):
     cursor = get_collection("Events").find( {"id_therapist": str(therapist)} )
     events = eventEntityList(cursor)
@@ -18,7 +18,7 @@ def get_all_events_by_therapist(therapist: str):
         content={
             "message": "Consulta exitosa",
             "status": "consulta exitosa",
-            "consultants": events
+            "events": events
         },
         status_code=200
     )
@@ -28,7 +28,8 @@ def get_all_events_by_therapist(therapist: str):
 @event.post("/events/new-event", tags=["Events"])
 def create_event(event: Event):
     new_event = dict(event)
-    get_collection("Consultants").insert_one(new_event).inserted_id
+    event_id = get_collection("Events").insert_one(new_event).inserted_id
+    new_event["_id"] = str(event_id)
     return JSONResponse(
          content={
             "message": "Evento creado correctamente",

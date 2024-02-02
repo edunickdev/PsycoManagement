@@ -4,10 +4,13 @@ from pymongo import MongoClient
 from dotenv import load_dotenv
 from os import getenv
 
+
 load_dotenv()
+
 
 password = quote_plus(getenv('pass'))
 user = quote_plus(getenv('mail'))
+
 
 connection = MongoClient(f"mongodb+srv://{user}:{password}@psycoadmin-cluster.rjpmk7x.mongodb.net/?retryWrites=true&w=majority")
 db = connection["PsycoAdmin"]

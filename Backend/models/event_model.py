@@ -2,7 +2,6 @@ from typing import Optional
 from pydantic import BaseModel
 
 class Event(BaseModel):
-    id: Optional[str]
     id_consultant: str
     id_therapist: str
     start_date: str
