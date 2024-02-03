@@ -7,7 +7,7 @@ const Navbar = () => {
   const currentPath = path.pathname;
 
   return (
-    <nav className="grid grid-cols-12 bg-blue-900 mb-1 shadow-md shadow-gray-800 fixed w-full py-1">
+    <nav className="grid grid-cols-12 bg-blue-900 mb-1 shadow-md shadow-gray-800 fixed w-full py-1 z-30">
       <div className="col-span-2"></div>
       <div className="col-span-8">
         <ul className="flex justify-between items-center h-full text-2xl text-gray-300">
@@ -30,7 +30,7 @@ const Navbar = () => {
             <Link to={"/consultants"} className={`${currentPath === "/home" ? "hidden" : ""}`}>Consultantes</Link>
           </li>
           <li>
-            <Link to={"/calendar"} className={`${currentPath === "/home" ? "hidden" : ""}`}>Agenda</Link>
+            <Link to={"/agenda"} className={`${currentPath === "/home" ? "hidden" : ""}`}>Agenda</Link>
           </li>
         </ul>
       </div>

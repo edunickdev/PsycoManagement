@@ -25,5 +25,6 @@ def consultantEntity(Consultant) -> dict:
         "annotations": Consultant["annotations"]
     }
     
+
 def consultantEntityList(consultants) -> list[dict]:
     return [consultantEntity(consultant) for consultant in consultants]
