@@ -80,23 +80,23 @@ const CustomCalendar = () => {
 
   const [eventsList, setEventsList] = useState([
     {
-      start: dayjs("2024-01-05T13:00:00").toDate(),
-      end: dayjs("2024-01-05T13:40:00").toDate(),
+      start: dayjs("2024-02-05T13:00:00").toDate(),
+      end: dayjs("2024-02-05T13:40:00").toDate(),
       title: "Cita Psicologia 1",
     },
     {
-      start: dayjs("2024-01-10T13:00:00").toDate(),
-      end: dayjs("2024-01-10T15:30:00").toDate(),
+      start: dayjs("2024-02-10T13:00:00").toDate(),
+      end: dayjs("2024-02-10T15:30:00").toDate(),
       title: "event 2",
     },
     {
-      start: dayjs("2024-01-12T13:00:00").toDate(),
-      end: dayjs("2024-01-12T13:40:00").toDate(),
+      start: dayjs("2024-02-12T13:00:00").toDate(),
+      end: dayjs("2024-02-12T13:40:00").toDate(),
       title: "event 3",
     },
     {
-      start: dayjs("2024-01-16T13:00:00").toDate(),
-      end: dayjs("2024-01-17T15:30:00").toDate(),
+      start: dayjs("2024-02-16T13:00:00").toDate(),
+      end: dayjs("2024-02-17T15:30:00").toDate(),
       title: "event 4",
     },
   ]);
@@ -110,6 +110,7 @@ const CustomCalendar = () => {
     );
 
     setEventsList(updatedEvents);
+    console.log(`mi variable local: ${eventsList}`);
   };
 
   const [eventList, setEventList] = useState([]);
@@ -144,7 +145,7 @@ const CustomCalendar = () => {
         defaultView={"month"}
         messages={messages}
         onSelectEvent={handleEventClick}
-        events={events}
+        events={eventsList}
         components={components}
         className="col-span-8 mt-32 h-[450px] mx-6"
         onEventDrop={onEventDrop}
