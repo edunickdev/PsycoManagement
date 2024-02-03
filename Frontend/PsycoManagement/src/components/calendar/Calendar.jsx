@@ -22,29 +22,6 @@ const CustomCalendar = () => {
   const { getId } = TherapistAuth();
   const id = getId();
 
-  const events = [
-    {
-      start: dayjs("2024-01-05T13:00:00").toDate(),
-      end: dayjs("2024-01-05T13:40:00").toDate(),
-      title: "Cita Psicologia 1",
-    },
-    {
-      start: dayjs("2024-01-10T13:00:00").toDate(),
-      end: dayjs("2024-01-10T15:30:00").toDate(),
-      title: "event 2",
-    },
-    {
-      start: dayjs("2024-01-12T13:00:00").toDate(),
-      end: dayjs("2024-01-12T13:40:00").toDate(),
-      title: "event 3",
-    },
-    {
-      start: dayjs("2024-01-16T13:00:00").toDate(),
-      end: dayjs("2024-01-17T15:30:00").toDate(),
-      title: "event 4",
-    },
-  ];
-
   const messages = {
     allDay: "Todo el día",
     previous: "<",
@@ -99,6 +76,11 @@ const CustomCalendar = () => {
       end: dayjs("2024-02-17T15:30:00").toDate(),
       title: "event 4",
     },
+    {
+      start: dayjs("2024-02-20T13:00:00").toDate(),
+      end: dayjs("2024-02-20T15:30:00").toDate(),
+      title: "event 5",
+    },
   ]);
 
   const onEventDrop = ({ event, start, end }) => {
@@ -127,7 +109,7 @@ const CustomCalendar = () => {
       .then((response) => response.json())
       .then((events) => {
         console.log(events);
-        setEventList([...events]);
+        //setEventList([...events]);
       }).catch((error) => {
         console.log(error);
       });
@@ -149,7 +131,7 @@ const CustomCalendar = () => {
         components={components}
         className="col-span-8 mt-32 h-[450px] mx-6"
         onEventDrop={onEventDrop}
-        Event
+        //Event
         DROP
         resizable
       />
