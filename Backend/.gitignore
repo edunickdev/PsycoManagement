@@ -1,3 +1,4 @@
 /psycoenv
 .env
 /__pycache__/
+.pyc
