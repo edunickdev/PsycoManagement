@@ -110,6 +110,7 @@ const CustomCalendar = () => {
     );
 
     setEventsList(updatedEvents);
+    console.log(`mi variable local: ${eventsList}`);
   };
 
   const [eventList, setEventList] = useState([]);
