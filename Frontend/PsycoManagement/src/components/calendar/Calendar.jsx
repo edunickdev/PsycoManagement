@@ -108,8 +108,9 @@ const CustomCalendar = () => {
     })
       .then((response) => response.json())
       .then((events) => {
-        console.log(events);
-        //setEventList([...events]);
+        console.log(`mis eventos antes del set: ${JSON.stringify(events)}`);
+        setEventList([...events.events]);
+        console.log(`mis eventos despues del set: ${JSON.stringify(eventList)}`);
       }).catch((error) => {
         console.log(error);
       });
