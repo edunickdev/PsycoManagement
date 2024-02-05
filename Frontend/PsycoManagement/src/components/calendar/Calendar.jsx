@@ -5,7 +5,7 @@ import EventForm from "./EventForm";
 import { useEffect, useState } from "react";
 import "./calendar.css";
 import ContentEventView from "./EventContent";
-import { useDisclosure } from "@nextui-org/react";
+import { CircularProgress, useDisclosure } from "@nextui-org/react";
 import { Calendar, dayjsLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import withDragAndDrop, {
@@ -14,13 +14,11 @@ import withDragAndDrop, {
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import dayjs from "dayjs";
 import "dayjs/locale/es";
-import { TherapistAuth } from "../../context/AuthContext";
 
 dayjs.locale("es");
 
-const CustomCalendar = () => {
-  const { getId } = TherapistAuth();
-  const id = getId();
+const CustomCalendar = ({ listEvents }) => {
+  console.log(`lo que recibo en el calendar: ${listEvents}`);
 
   const messages = {
     allDay: "Todo el día",
@@ -55,92 +53,71 @@ const CustomCalendar = () => {
   const localizer = dayjsLocalizer(dayjs);
   const DgnDpCalendar = withDragAndDrop(Calendar);
 
-  const [eventsList, setEventsList] = useState([
-    {
-      start: dayjs("2024-02-05T13:00:00").toDate(),
-      end: dayjs("2024-02-05T13:40:00").toDate(),
-      title: "Cita Psicologia 1",
-    },
-    {
-      start: dayjs("2024-02-10T13:00:00").toDate(),
-      end: dayjs("2024-02-10T15:30:00").toDate(),
-      title: "event 2",
-    },
-    {
-      start: dayjs("2024-02-12T13:00:00").toDate(),
-      end: dayjs("2024-02-12T13:40:00").toDate(),
-      title: "event 3",
-    },
-    {
-      start: dayjs("2024-02-16T13:00:00").toDate(),
-      end: dayjs("2024-02-17T15:30:00").toDate(),
-      title: "event 4",
-    },
-    {
-      start: dayjs("2024-02-20T13:00:00").toDate(),
-      end: dayjs("2024-02-20T15:30:00").toDate(),
-      title: "event 5",
-    },
-  ]);
-
   const onEventDrop = ({ event, start, end }) => {
     // Actualiza el estado de los eventos con la nueva información de arrastre y soltar
-    const updatedEvents = eventsList.map((existingEvent) =>
+    const updatedEvents = eventList.map((existingEvent) =>
       existingEvent.id === event.id
         ? { ...existingEvent, start, end }
         : existingEvent
     );
-
-    setEventsList(updatedEvents);
-    console.log(`mi variable local: ${eventsList}`);
   };
 
   const [eventList, setEventList] = useState([]);
-  console.log(`mi variable local: ${eventList}`);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const get_events = () => {
-    fetch(`http://127.0.0.1:8000/events/${id}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((events) => {
-        console.log(`mis eventos antes del set: ${JSON.stringify(events)}`);
-        setEventList([...events.events]);
-        console.log(`mis eventos despues del set: ${JSON.stringify(eventList)}`);
-      }).catch((error) => {
-        console.log(error);
+  const buildListEvents = (events) => {
+    const list = [];
+    events.forEach((event) => {
+      list.push({
+        title: event["title"],
+        start: dayjs(event["start_date"]).toDate(),
+        end: dayjs(event["end_date"]).toDate(),
       });
+      console.log(list);
+    });
+    setEventList(list);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+    console.log(`lo que se guarda en mi eventList: ${JSON.stringify(eventList)}`);
   };
 
   useEffect(() => {
-    get_events();
-  }, []);
+    buildListEvents(listEvents);
+  }, [listEvents]);
 
   return (
     <>
-      <DgnDpCalendar
-        localizer={localizer}
-        views={["month", "week", "day"]}
-        defaultView={"month"}
-        messages={messages}
-        onSelectEvent={handleEventClick}
-        events={eventsList}
-        components={components}
-        className="col-span-8 mt-32 h-[450px] mx-6"
-        onEventDrop={onEventDrop}
-        //Event
-        DROP
-        resizable
-      />
-      <ContentEventView
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-        selectedEvent={selectedEvent}
-      />
+      {!isLoading ? (
+        <div className="col-span-8 mt-32 h-[450px] mx-6">
+          <DgnDpCalendar
+            localizer={localizer}
+            views={["month", "week", "day"]}
+            defaultView={"month"}
+            messages={messages}
+            onSelectEvent={handleEventClick}
+            events={listEvents}
+            components={components}
+            onEventDrop={onEventDrop}
+            DROP
+            resizable
+          />
+          <ContentEventView
+            isOpen={isOpen}
+            onOpenChange={onOpenChange}
+            selectedEvent={selectedEvent}
+          />
+        </div>
+      ) : (
+        <div className="flex justify-center items-center col-span-8 mt-32 h-[450px] mx-6">
+          <CircularProgress
+            aria-label="loadin events"
+            size="lg"
+            color="success"
+            label="Estamos cargando tu agenda, en unos momentos mas, estara lista"
+          />
+        </div>
+      )}
     </>
   );
 };
