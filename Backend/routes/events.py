@@ -14,6 +14,7 @@ event = APIRouter()
 def get_all_events_by_therapist(therapist: str):
     cursor = get_collection("Events").find( {"id_therapist": str(therapist)} )
     events = eventEntityList(cursor)
+    
     return JSONResponse(
         content={
             "message": "Consulta exitosa",
