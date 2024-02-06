@@ -107,14 +107,20 @@ const CustomCalendar = () => {
       },
     })
       .then((response) => response.json())
-      .then((events) => {
-        console.log(`mis eventos antes del set: ${JSON.stringify(events)}`);
-        setEventList([...events.events]);
-        console.log(`mis eventos despues del set: ${JSON.stringify(eventList)}`);
+      .then((data) => {
+        //const events = data.events
+        console.log(`mis eventos antes del set: ${JSON.stringify(data)}`);
+        setEventList(data);
+        //console.log(`mis eventos despues del set: ${JSON.stringify(eventList)}`);
       }).catch((error) => {
         console.log(error);
       });
   };
+
+  //useEffect(() => {
+  //  console.log(`mis eventos despues del set: ${JSON.stringify(eventList)}`);
+  //}, [eventList]);
+  // props en otro componente - useContext 
 
   useEffect(() => {
     get_events();
@@ -132,7 +138,6 @@ const CustomCalendar = () => {
         components={components}
         className="col-span-8 mt-32 h-[450px] mx-6"
         onEventDrop={onEventDrop}
-        //Event
         DROP
         resizable
       />
