@@ -23,7 +23,7 @@ def get_therapist_consultants( id_therapist: str ):
     )
 
 
-@consultant.post("/consultants/new-consultant", tags=["Therapist"])
+@consultant.post("/consultants/new-consultant", tags=["Therapist"], dependencies=[Depends(JWTBearer())])
 def create_new_consultant( consultant: Consultant ):
     new_consultant = dict(consultant)
     first_condition = get_collection("Consultants").find_one({"email": consultant.email})
@@ -34,7 +34,7 @@ def create_new_consultant( consultant: Consultant ):
                 "message": "El usuario ya se encuentra registrado en la base de datos",
                 "status": "usuario existente"
             },
-            status_code=401            
+            status_code=401
         )
     new_id = get_collection("Consultants").insert_one(new_consultant).inserted_id
     new_consultant["_id"] = str(new_id)
@@ -47,7 +47,7 @@ def create_new_consultant( consultant: Consultant ):
     )
     
     
-@consultant.patch("/consultant/update-consultant", tags=["Therapist"])
-async def update_consultant(id_consultant: str):
-     consultant_update = ""
+@consultant.patch("/consultant/update-consultant/{id}", tags=["Therapist"])
+async def update_consultant(id: str):
+    consultant_update = ""
 

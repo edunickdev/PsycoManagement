@@ -49,7 +49,7 @@ const ConsultanPage = () => {
           onPress={onOpen}
         >
           Agregar nuevo consultante
-          <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
+          <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center" size="2xl">
             <ModalContent>
               {(onClose) => (
                 <>
