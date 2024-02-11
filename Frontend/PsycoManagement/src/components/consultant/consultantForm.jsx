@@ -13,18 +13,55 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
   const [isChild, setIsChild] = useState(data.isChild);
   const [selected, setSelected] = useState("consultant");
 
-  const {control, handleSubmit, formState: { errors }, reset} = useForm();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  const saveData = (myData) => {
+    const response = fetch("http://127.0.0.1:8000/consultants/new-consultant", {
+      method: "POST",
+      body: JSON.stringify(myData),
+      headers: {
+        "Content-Type": "application/json",
+        token: localStorage.getItem("token"),
+      },
+    }).then((response) => response.json());
+    return response;
+  };
+
+  const updateData = (data) => {
+    const response = fetch(
+      `http://127.0.0.1:8000/consultants/update-consultant/{}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          token: localStorage.getItem("token"),
+        },
+      }
+    ).then((response) => response.json());
+    return response;
+  };
 
   const onSubmit = (data) => {
+    console.log(isNew);
     console.log(data);
+    if (isNew) {
+      saveData(data);
+    } else {
+      updateData(data);
+    }
   };
 
   const getAnnotations = (data) => {
     console.log("ejecutando");
     if (data.annotations > 0) {
-      
       const annotations = get_consultants({ data });
-  
+
       return annotations;
     } else {
       console.log("No tiene anotaciones");
@@ -39,17 +76,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
 
   return (
     <form className="grid grid-cols-12" onSubmit={handleSubmit(onSubmit)}>
-      <Tabs
-        selectedKey={selected}
-        onSelectionChange={setSelected}
-        fullWidth
-        size="sm"
-        aria-label="Tabs form"
-        className="col-span-12"
-        disabledKeys={isChild ? [] : ["responsible"]}
-      >
-        <Tab key="consultant" title="Consultante" className="col-span-12">
-          <div className="h-80 overflow-y-auto py-1">
+          <div className="h-80 overflow-y-auto py-1 col-span-12">
             <SectionForm
               isNew={isNew}
               name={["names", "last_names"]}
@@ -149,7 +176,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
                 colSpan={6}
                 amountElements={1}
               />
-              <div className="col-span-6">
+              <div className="col-span-6 flex justify-center items-center">
                 <Controller
                   name="isChild"
                   control={control}
@@ -171,52 +198,34 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
                 />
               </div>
             </div>
+            {isChild ? (
+              <div className="col-span-12 grid grid-cols-12 mt-3 gap-1">
+                <SectionForm
+                  isNew={isNew}
+                  name={["names_responsible"]}
+                  control={control}
+                  defaultValue={[data.names_responsible]}
+                  label={["Nombres acudiente"]}
+                  error={[errors.names_responsible]}
+                  isEdit={isEdit}
+                  amountElements={1}
+                />
+                <SectionForm
+                  isNew={isNew}
+                  name={["phone_responsible", "email_responsible"]}
+                  control={control}
+                  defaultValue={[
+                    data.phone_responsible,
+                    data.email_responsible,
+                  ]}
+                  label={["Teléfono acudiente", "Email acudiente"]}
+                  error={[errors.phone_responsible, errors.email_responsible]}
+                  isEdit={isEdit}
+                  amountElements={2}
+                />
+              </div>
+            ) : null}
           </div>
-        </Tab>
-        {isChild ? (
-          <Tab key="responsible" title="Responsable" className="col-span-12">
-            <div className="col-span-12 grid grid-cols-12 px-1 w-full h-80 content-start">
-              <SectionForm
-                isNew={isNew}
-                name={["names_responsible"]}
-                control={control}
-                defaultValue={[data.names_responsible]}
-                label={["Nombres acudiente"]}
-                error={[errors.names_responsible]}
-                isEdit={isEdit}
-                amountElements={1}
-              />
-              <SectionForm
-                isNew={isNew}
-                name={["phone_responsible", "email_responsible"]}
-                control={control}
-                defaultValue={[data.phone_responsible, data.email_responsible]}
-                label={["Teléfono acudiente", "Email acudiente"]}
-                error={[errors.phone_responsible, errors.email_responsible]}
-                isEdit={isEdit}
-                amountElements={2}
-              />
-            </div>
-          </Tab>
-        ) : null}
-        {data.annotations > 0 ? (
-          <Tab
-            onClick={getAnnotations(data)}
-            key="annotations"
-            title={
-              data.annotations === 1
-                ? `${data.annotations} Anotación`
-                : `${data.annotations} Anotaciones`
-            }
-            className="col-span-12"
-          >
-            <div className="col-span-12 grid grid-cols-12 px-1 w-full h-80 content-start overflow-y-auto">
-              <AnnotationItem />
-              <AnnotationItem />
-            </div>
-          </Tab>
-        ) : null}
-      </Tabs>
       <div className="col-span-12 flex flex-wrap justify-center item pt-2">
         <Button
           {...(isEdit ? { disabled: false } : { disabled: true })}

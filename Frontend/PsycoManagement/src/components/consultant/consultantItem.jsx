@@ -38,7 +38,7 @@ const ConsultantItem = ({ consultant }) => {
         <p className="text-tiny font-bold">Pagos pendientes: </p>
         <p className="text-tiny">al día</p>
       </div>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center" size="2xl">
         <ModalContent>
           {(onClose) => (
             <>

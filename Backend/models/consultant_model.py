@@ -18,7 +18,7 @@ class Consultant(BaseModel):
     eps: str = Field(min_length=5)
     birth_date: str = Field(min_length=6)
     num_contact_emergency: int = Field(default=0)
-    isChild: bool = Field(default=False)
+    isChild: bool
     email_responsible: str = Field(max_length=50, min_length=10 )
     phone_responsible: int = Field(default=0)
     names_responsible: str = Field(max_length=50, min_length=4)
