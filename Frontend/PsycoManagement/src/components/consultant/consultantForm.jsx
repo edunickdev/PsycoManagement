@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import SectionForm from "./SectionForm";
 import AutocompleteForm from "./AutoCompleteForm";
-import { get_consultants } from "../../services/therapist_services";
+import { get_annotations } from "../../services/therapist_services";
 import AnnotationItem from "./AnnotationItem";
 
 const ConsultantForm = ({ data, onClose, isNew = false }) => {
@@ -60,7 +60,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
   const getAnnotations = (data) => {
     console.log("ejecutando");
     if (data.annotations > 0) {
-      const annotations = get_consultants({ data });
+      const annotations = get_annotations({ data });
 
       return annotations;
     } else {
