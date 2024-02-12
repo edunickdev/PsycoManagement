@@ -1,4 +1,4 @@
-export const get_consultants = ({ data }) => {
+export const get_annotations = ({ data }) => {
       fetch(
         `http://localhost:3000/annotations/${data.id_consultant}`,
         {

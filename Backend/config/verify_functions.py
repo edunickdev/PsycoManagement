@@ -14,7 +14,8 @@ def verify_therapist_credentials(email: str, password: str):
                 "message": "Inicio de sesión correcto",
                 "status": "inicio exitoso",
                 "token": token,
-                "id": id_user
+                "id": id_user,
+                "names": user["names"]
             },
             status_code=200
         )
