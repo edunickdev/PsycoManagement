@@ -1,6 +1,9 @@
+import { API_BASE_URL } from "../config/elementals";
+
+
 export const get_annotations = ({ data }) => {
       fetch(
-        `http://localhost:3000/annotations/${data.id_consultant}`,
+        `${API_BASE_URL}annotations/${data.id_consultant}`,
         {
           method: "GET",
           headers: {

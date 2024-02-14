@@ -4,6 +4,7 @@
 import { useContext, useEffect, useState } from "react";
 import ConsultantItem from "./consultantItem";
 import { AuthTherapist } from "../../context/AuthContext";
+import { API_BASE_URL } from "../../config/elementals";
 
 const SectionConsultant = ({ inputValue }) => {
   const TherapistAuth = useContext(AuthTherapist);
@@ -13,7 +14,7 @@ const SectionConsultant = ({ inputValue }) => {
   const [filterData, setFilterData] = useState([]);
 
   const getData = () => {
-    fetch(`http://127.0.0.1:8000/consultants/${id}`, {
+    fetch(`${API_BASE_URL}consultants/${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,

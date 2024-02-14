@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import Cards from "./cards";
+import { API_BASE_URL } from "../../config/elementals";
 
 const SectionCards = () => {
   const [data, setData] = useState([]);
 
   const getData = () => {
-    fetch("http://127.0.0.1:8000/home/", {
+    fetch(`${API_BASE_URL}home/`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,

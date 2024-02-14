@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { createContext, useContext, useState } from "react";
 import bcrypt from "bcryptjs";
+import { API_BASE_URL } from "../config/elementals";
 
 export const AuthTherapist = createContext();
 
@@ -8,7 +9,7 @@ export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const postSignUp = async ({ data }) => {
-    const urlApi = "http://127.0.0.1:8000/auth/sign-up";
+    const urlApi = `${API_BASE_URL}auth/sign-up`;
     const hashedPassword = await bcrypt.hash(data.Password, 10);
     const requestData = {
       names: data.Nombre + " " + data.Apellido,
@@ -22,12 +23,11 @@ export const AuthContextProvider = ({ children }) => {
     };
     const res = await fetch(urlApi, requestOptions);
     const resData = await res.json();
-    setUser(resData);
     return resData;
   };
 
   const postSignIn = async ({ data }) => {
-    const urlApi = "http://127.0.0.1:8000/auth/login";
+    const urlApi = `${API_BASE_URL}auth/login`;
     const requestData = {
       email: data.Email,
       password: data.Password,

@@ -1,6 +1,4 @@
 import FondoLogin from "../assets/fondoLogin.png";
-import GoogleIcon from "../assets/logoGoogle.png";
-import MicrosoftIcon from "../assets/logoMicrosoft.png";
 import MainLogo from "../assets/PsycoAdmin.png";
 import ShortHome from "../assets/short-home.mp4";
 import Equipo from "../assets/equipo.jpg";
@@ -11,8 +9,6 @@ import logoInstagram from "../assets/logoInstagram.svg";
 
 export const staticFiles = {
     fondoLogin: FondoLogin,
-    iconGoogle: GoogleIcon,
-    iconMicrosoft: MicrosoftIcon,
     mainLogo: MainLogo,
     shortHome: ShortHome,
     equipo: Equipo,
