@@ -18,7 +18,7 @@ app.include_router(annotations)
 
 origin = {
     'http://localhost:5173',
-    "https://psycoadmin.netlify.app"
+    'https://psycoadmin.netlify.app'
 }
 
 app.add_middleware(

@@ -4,6 +4,7 @@ import ConsultantListCard from "../components/calendar/consultants-list/Consulta
 import StatesCalendar from "../components/calendar/StatesCalendar";
 import { useEffect, useState } from "react";
 import { TherapistAuth } from "../context/AuthContext";
+import { API_BASE_URL } from "../config/elementals";
 
 const AgendaPage = () => {
 
@@ -13,7 +14,7 @@ const AgendaPage = () => {
   const [eventList, setEventList] = useState([]);
 
   const get_events = () => {
-    fetch(`http://127.0.0.1:8000/events/${id}`, {
+    fetch(`${API_BASE_URL}events/${id}`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,

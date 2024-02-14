@@ -6,7 +6,7 @@ import { Controller, useForm } from "react-hook-form";
 import SectionForm from "./SectionForm";
 import AutocompleteForm from "./AutoCompleteForm";
 import { get_annotations } from "../../services/therapist_services";
-import AnnotationItem from "./AnnotationItem";
+import { API_BASE_URL } from "../../config/elementals";
 
 const ConsultantForm = ({ data, onClose, isNew = false }) => {
   const [isEdit, setIsEdit] = useState(isNew ? true : false);
@@ -20,7 +20,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
   } = useForm();
 
   const saveData = (myData) => {
-    const response = fetch("http://127.0.0.1:8000/consultants/new-consultant", {
+    const response = fetch(`${API_BASE_URL}consultants/new-consultant`, {
       method: "POST",
       body: JSON.stringify(myData),
       headers: {
@@ -33,7 +33,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
 
   const updateData = (data) => {
     const response = fetch(
-      `http://127.0.0.1:8000/consultants/update-consultant/{}`,
+      `${API_BASE_URL}consultants/update-consultant/{}`,
       {
         method: "PUT",
         body: JSON.stringify(data),
