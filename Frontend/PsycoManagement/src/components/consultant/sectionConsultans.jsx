@@ -16,7 +16,7 @@ const SectionConsultant = ({ inputValue }) => {
     fetch(`http://127.0.0.1:8000/consultants/${id}`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         "Content-Type": "application/json",
       },
     })

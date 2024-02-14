@@ -1,13 +1,14 @@
 import { Button, Input } from "@nextui-org/react";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { AuthTherapist } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { TherapistAuth } from "../../context/AuthContext";
 
 const ContentSignUp = () => {
-  const TherapistAuth = useContext(AuthTherapist);
+  const { postSignUp, postSignIn } = TherapistAuth();
+
   const route = useNavigate();
 
   const notify = ({ text, type }) => {
@@ -28,14 +29,12 @@ const ContentSignUp = () => {
     
     const decisionObject = async () => {
       if ( mode ) {
-        let response = await TherapistAuth.postSignIn({ data });
-        response = await response.json();
-        console.log(response);
-        TherapistAuth.storeToken({ token: response.token, id: response.id });
+        const response = await postSignIn({ data });
+        route("/home");
         return response
       } else if ( !mode) {
-        const response = await TherapistAuth.postSignUp({ data });
-        return response.json();
+        const response = await postSignUp({ data });
+        return response
       }
     }
 
@@ -58,7 +57,6 @@ const ContentSignUp = () => {
       case "inicio exitoso":
         notify({ text: responseObject.message, type: "success" })
         reset();
-        route("/home");
         break;
       default:
         break;
