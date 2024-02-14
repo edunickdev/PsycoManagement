@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Link } from "react-router-dom";
 import {
   Popover,
@@ -8,19 +9,10 @@ import {
 import { staticFiles } from "../../config/statics";
 import { UserTwitterCard } from "./usercard";
 import { TherapistAuth } from "../../context/AuthContext";
-import { useEffect, useState } from "react";
 
 const Navbar = () => {
+
   const { user } = TherapistAuth();
-  const [userNames, setUserNames] = useState("");
-
-  useEffect(() => {
-    if (user) {
-      setUserNames(user.names);
-    }
-  }, [user]);
-  
-
 
   return (
     <nav className="grid grid-cols-12 grid-rows-5 my-2 fixed w-full py-1 z-30 h-20 pb-5">
@@ -75,8 +67,8 @@ const Navbar = () => {
           <PopoverTrigger>
             <User
               as="button"
-              name={userNames}
-              description="Clinical Psychologist"
+              name={ user != null ? user.names.split(" ")[0] + " " + user.names.split(" ")[2] : "Autenticación"}
+              description={ user != null ? "Configuración" : "Ingresar"}
               className="transition-transform"
             />
           </PopoverTrigger>

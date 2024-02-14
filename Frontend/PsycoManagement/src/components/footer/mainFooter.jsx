@@ -10,7 +10,7 @@ const Footer = () => {
     <footer className="col-span-12 flex justify-center items-center py-2 bg-blue-900 fixed bottom-0 left-0 right-0 z-30">
       <span className="text-center font-semibold text-gray-400">
         Conoce a los desarrolladores
-        <Popover color="success" placement="right-start" >
+        <Popover color="success" placement="top-end" >
           <PopoverTrigger>
             <span className="px-1 text-slate-300 font-semibold"> Lorena Oviedo </span>
           </PopoverTrigger>
@@ -28,7 +28,7 @@ const Footer = () => {
             </div>
           </PopoverContent>
         </Popover>y 
-        <Popover color="success" placement="right-start" >
+        <Popover color="success" placement="top-end" >
           <PopoverTrigger>
             <span className="px-1 text-slate-300 font-semibold"> Nicolás Sarmiento </span>
           </PopoverTrigger>

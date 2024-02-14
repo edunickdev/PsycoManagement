@@ -11,7 +11,6 @@ import AnnotationItem from "./AnnotationItem";
 const ConsultantForm = ({ data, onClose, isNew = false }) => {
   const [isEdit, setIsEdit] = useState(isNew ? true : false);
   const [isChild, setIsChild] = useState(data.isChild);
-  const [selected, setSelected] = useState("consultant");
 
   const {
     control,
@@ -26,7 +25,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
       body: JSON.stringify(myData),
       headers: {
         "Content-Type": "application/json",
-        token: localStorage.getItem("token"),
+        token: sessionStorage.getItem("token"),
       },
     }).then((response) => response.json());
     return response;
@@ -40,7 +39,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
         body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
-          token: localStorage.getItem("token"),
+          token: sessionStorage.getItem("token"),
         },
       }
     ).then((response) => response.json());

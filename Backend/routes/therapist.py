@@ -35,7 +35,6 @@ def register_therapist(therapist: Therapist):
 @therapist.post("/auth/login", tags=["Authentication"])
 async def login_therapist( therapist: Therapist ):
     user = verify_therapist_credentials(therapist.email, therapist.password)
-    print(user)
     return user
     
     
