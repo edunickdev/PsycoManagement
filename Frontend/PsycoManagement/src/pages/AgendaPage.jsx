@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Footer from "../components/footer/mainFooter";
 import CustomCalendar from "../components/calendar/Calendar";
 import ConsultantListCard from "../components/calendar/consultants-list/ConsultantsList";
@@ -7,7 +8,6 @@ import { TherapistAuth } from "../context/AuthContext";
 import { API_BASE_URL } from "../config/elementals";
 
 const AgendaPage = () => {
-
   const { getId } = TherapistAuth();
   const id = getId();
 
@@ -32,9 +32,7 @@ const AgendaPage = () => {
 
   useEffect(() => {
     get_events();
-  }
-  , []);
-
+  }, []);
 
   return (
     <div className="grid grid-cols-12">

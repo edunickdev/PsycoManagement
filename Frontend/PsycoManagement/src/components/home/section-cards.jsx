@@ -1,26 +1,21 @@
 import { useEffect, useState } from "react";
 import Cards from "./cards";
-import { API_BASE_URL } from "../../config/elementals";
+import { getData } from "../../services/home/homeServices";
 
 const SectionCards = () => {
   const [data, setData] = useState([]);
 
-  const getData = () => {
-    fetch(`${API_BASE_URL}home/`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-      });
-  };
-
   useEffect(() => {
-    getData();
+    const fetchData = async () => {
+      try {
+        const resp = await getData();
+        setData(resp);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
