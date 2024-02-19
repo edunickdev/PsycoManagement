@@ -1,10 +1,10 @@
 # PsycoManagement
-Solución WEB pensada y enfocada en los Psicologos, siguiendo los lineamientos dados por la legislación Colombiana sobre Historias Clinicas, esta aplicación esta pensada en manejar de forma segura y confiable la información de los pacientes de cada Psicologo, su desarrollo en el lado front es en React, su desarrollo en el lado Backend es en FastAPI, usa base de datos NoSQL MongoDB.
+Solución WEB pensada y enfocada en los Psicologos, trata de abordar y proveer una solución de software confiable y responsable con el manejo de información sensible que este alineado con los estandares establecidos por la ley colombiana sobre historias clinicas, sin embargo no se queda en esto solamente, pues tiene previsto una serie de funcionalidades empoderadas y apalancadas con BigData e Inteligencia Artificial que por motivos de seguridad y conservar la originalidad de las ideas no se describiran aquí.
 ** Aspectos claves **
 
 Tecnologías:
 Frontend = React
 Backend = FastAPI
 Base de datos = MongoDB
-Versión Móvil = (Aún en planificación) Sera implementado con Flutter
+Versión Móvil = (Aún en fase de planificación) con Flutter
 
