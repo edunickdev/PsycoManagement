@@ -1,31 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ConsultantItem from "./consultantItem";
-import { AuthTherapist } from "../../context/AuthContext";
-import { API_BASE_URL } from "../../config/elementals";
+import { TherapistAuth } from "../../context/AuthContext";
+import { getConsultants } from "../../services/therapist/therapistServices";
 
 const SectionConsultant = ({ inputValue }) => {
-  const TherapistAuth = useContext(AuthTherapist);
 
-  const id = TherapistAuth.getId();
+  const { getId } = TherapistAuth();
+  const id = getId();
+
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
-
-  const getData = () => {
-    fetch(`${API_BASE_URL}consultants/${id}`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((person) => {
-        setData(person["consultants"]);
-      });
-  };
 
   const filterConsultants = (inputValue) => {
     const lowerInputValue = inputValue.toLowerCase();
@@ -37,8 +23,16 @@ const SectionConsultant = ({ inputValue }) => {
   };
 
   useEffect(() => {
-    getData();
-  }, []);
+    const fetchData = async () => {
+      try {
+        const resp = await getConsultants(id);
+        setData(resp["consultants"]);
+      } catch (error) {
+        console.error("Error fetching consultants:", error);
+      }
+    };
+    fetchData();
+  }, [id]);
 
   useEffect(() => {
     if (inputValue) {

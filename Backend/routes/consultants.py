@@ -1,6 +1,9 @@
+from bson import ObjectId
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
+from pymongo import ReturnDocument
 from config.jwt_functions import JWTBearer
+from models.annotations_model import Annotations
 from models.consultant_model import Consultant
 from config.connection import get_collection
 from schemas.consultant_schema import consultantEntityList
@@ -47,7 +50,14 @@ def create_new_consultant( consultant: Consultant ):
     )
     
     
-@consultant.patch("/consultant/update-consultant/{id}", tags=["Therapist"])
-async def update_consultant(id: str):
-    consultant_update = ""
+@consultant.post("/consultant/update-consultant/{id}", tags=["Therapist"])
+async def update_consultant(id: str, info: dict):
+    update_fields: dict = {field: info["newValues"][i] for i, field in enumerate(info["fields"])}
+    current_consultant = get_collection("Consultants").find_one_and_update(
+        {"_id": ObjectId(id)}, 
+        {"$set": update_fields}, 
+        return_document=ReturnDocument.AFTER
+    )
+    current_consultant
+    pass
 

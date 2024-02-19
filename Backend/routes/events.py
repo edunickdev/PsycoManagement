@@ -8,7 +8,6 @@ from schemas.event_schema import eventEntityList
 
 event = APIRouter()
 
-# dependencies=[Depends(JWTBearer())]
 
 @event.get("/events/{therapist}", tags=["Events"], dependencies=[Depends(JWTBearer())])
 def get_all_events_by_therapist(therapist: str):
@@ -24,9 +23,8 @@ def get_all_events_by_therapist(therapist: str):
         status_code=200
     )
 
-# dependencies=[Depends(JWTBearer())]
 
-@event.post("/events/new-event", tags=["Events"])
+@event.post("/events/new-event", tags=["Events"], dependencies=[Depends(JWTBearer())])
 def create_event(event: Event):
     new_event = dict(event)
     event_id = get_collection("Events").insert_one(new_event).inserted_id

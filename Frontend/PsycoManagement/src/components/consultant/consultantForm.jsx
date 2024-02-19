@@ -2,15 +2,20 @@
 /* eslint-disable no-unused-vars */
 import { Button, Checkbox, Tab, Tabs } from "@nextui-org/react";
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, set, useForm } from "react-hook-form";
 import SectionForm from "./SectionForm";
 import AutocompleteForm from "./AutoCompleteForm";
-import { get_annotations } from "../../services/therapist_services";
-import { API_BASE_URL } from "../../config/elementals";
+import {
+  get_annotations_by_consultant,
+  saveConsultant,
+  updateConsultant,
+} from "../../services/consultant/consultantServices";
+import AnnotationSection from "./AnnotationSection";
 
-const ConsultantForm = ({ data, onClose, isNew = false }) => {
+const ConsultantForm = ({ data: myData, onClose, isNew = false }) => {
   const [isEdit, setIsEdit] = useState(isNew ? true : false);
-  const [isChild, setIsChild] = useState(data.isChild);
+  const [isChild, setIsChild] = useState(myData.isChild);
+  const [oldData, setOldData] = useState({});
 
   const {
     control,
@@ -19,68 +24,51 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
     reset,
   } = useForm();
 
-  const saveData = (myData) => {
-    const response = fetch(`${API_BASE_URL}consultants/new-consultant`, {
-      method: "POST",
-      body: JSON.stringify(myData),
-      headers: {
-        "Content-Type": "application/json",
-        token: sessionStorage.getItem("token"),
-      },
-    }).then((response) => response.json());
-    return response;
-  };
-
-  const updateData = (data) => {
-    const response = fetch(
-      `${API_BASE_URL}consultants/update-consultant/{}`,
-      {
-        method: "PUT",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-          token: sessionStorage.getItem("token"),
-        },
-      }
-    ).then((response) => response.json());
-    return response;
-  };
-
   const onSubmit = (data) => {
-    console.log(isNew);
-    console.log(data);
     if (isNew) {
-      saveData(data);
+      saveConsultant(data);
     } else {
-      updateData(data);
+      updateConsultant(data, oldData);
     }
   };
 
-  const getAnnotations = (data) => {
-    console.log("ejecutando");
-    if (data.annotations > 0) {
-      const annotations = get_annotations({ data });
+  // const getAnnotations = (data) => {
+  //   console.log("ejecutando");
+  //   if (data.annotations > 0) {
+  //     const annotations = get_annotations_by_consultant({ data });
 
-      return annotations;
-    } else {
-      console.log("No tiene anotaciones");
-      return null;
-    }
-  };
+  //     return annotations;
+  //   } else {
+  //     console.log("No tiene anotaciones");
+  //     return null;
+  //   }
+  // };
+
+  
 
   const allowEdit = async () => {
     onClose;
     setIsEdit(!isEdit);
+    setOldData(myData);
   };
+
+  const [selectedTab, setSelectedTab] = useState("info");
 
   return (
     <form className="grid grid-cols-12" onSubmit={handleSubmit(onSubmit)}>
-          <div className="h-80 overflow-y-auto py-1 col-span-12">
+      <Tabs
+        aria-label="clinical history info"
+        className="col-span-12 flex justify-center items-center"
+        selectedKey={selectedTab}
+        onSelectionChange={setSelectedTab}
+      >
+        <Tab key="info" title="Información básica" className="col-span-12">
+          <div className="h-80 overflow-y-auto py-1">
             <SectionForm
               isNew={isNew}
               name={["names", "last_names"]}
               control={control}
-              defaultValue={[data.names, data.last_names]}
+              defaultValue={[myData.names, myData.last_names]}
               label={["Nombres", "Apellidos"]}
               error={[errors.names, errors.last_names]}
               isEdit={isEdit}
@@ -91,7 +79,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
                 isNew={isNew}
                 name={["phone"]}
                 control={control}
-                defaultValue={[data.phone]}
+                defaultValue={[myData.phone]}
                 label={["Teléfono"]}
                 error={[errors.phone]}
                 isEdit={isEdit}
@@ -104,7 +92,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
                   isNew={isNew}
                   name={["type_document"]}
                   control={control}
-                  defaultValue={[data.type_document]}
+                  defaultValue={[myData.type_document]}
                   label={["Tipo"]}
                   error={[errors.type_document]}
                   isEdit={isEdit}
@@ -115,15 +103,15 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
               ) : (
                 <AutocompleteForm
                   name="type_document"
-                  defaultValue={data.type_document}
-                  defaultInputValue={data.type_document}
+                  defaultValue={myData.type_document}
+                  defaultInputValue={myData.type_document}
                 />
               )}
               <SectionForm
                 isNew={isNew}
                 name={["document_number"]}
                 control={control}
-                defaultValue={[data.document_number]}
+                defaultValue={[myData.document_number]}
                 label={["Número documento"]}
                 error={[errors.document_number]}
                 isEdit={isEdit}
@@ -136,7 +124,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
               isNew={isNew}
               name={["email", "address"]}
               control={control}
-              defaultValue={[data.email, data.address]}
+              defaultValue={[myData.email, myData.address]}
               label={["Correo electrónico", "Dirección"]}
               error={[errors.email, errors.address]}
               isEdit={isEdit}
@@ -146,7 +134,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
               isNew={isNew}
               name={["city", "country"]}
               control={control}
-              defaultValue={[data.city, data.country]}
+              defaultValue={[myData.city, myData.country]}
               label={["Ciudad", "País"]}
               error={[errors.city, errors.country]}
               isEdit={isEdit}
@@ -156,7 +144,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
               isNew={isNew}
               name={["regimen", "eps", "status"]}
               control={control}
-              defaultValue={[data.regimen, data.eps, data.status]}
+              defaultValue={[myData.regimen, myData.eps, myData.status]}
               label={["Regimen", "EPS", "Estatus"]}
               error={[errors.regimen, errors.eps, errors.status]}
               isEdit={isEdit}
@@ -167,7 +155,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
                 isNew={isNew}
                 name={["birth_date"]}
                 control={control}
-                defaultValue={[data.birth_date]}
+                defaultValue={[myData.birth_date]}
                 label={["Fecha de nacimiento"]}
                 error={[errors.birth_date]}
                 isEdit={isEdit}
@@ -179,10 +167,10 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
                 <Controller
                   name="isChild"
                   control={control}
-                  defaultValue={data.isChild}
+                  defaultValue={myData.isChild}
                   render={({ field }) => (
                     <Checkbox
-                      defaultSelected={data.isChild}
+                      defaultSelected={myData.isChild}
                       isDisabled={!isEdit}
                       {...field}
                       onClick={() => {
@@ -203,7 +191,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
                   isNew={isNew}
                   name={["names_responsible"]}
                   control={control}
-                  defaultValue={[data.names_responsible]}
+                  defaultValue={[myData.names_responsible]}
                   label={["Nombres acudiente"]}
                   error={[errors.names_responsible]}
                   isEdit={isEdit}
@@ -214,8 +202,8 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
                   name={["phone_responsible", "email_responsible"]}
                   control={control}
                   defaultValue={[
-                    data.phone_responsible,
-                    data.email_responsible,
+                    myData.phone_responsible,
+                    myData.email_responsible,
                   ]}
                   label={["Teléfono acudiente", "Email acudiente"]}
                   error={[errors.phone_responsible, errors.email_responsible]}
@@ -225,7 +213,16 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
               </div>
             ) : null}
           </div>
-      <div className="col-span-12 flex flex-wrap justify-center item pt-2">
+        </Tab>
+        {myData.annotations != 0 ? (
+          <Tab key="annotations" title="Anotaciones" className="col-span-12">
+            <div className="h-80 overflow-y-auto py-1">
+              <AnnotationSection />
+            </div>
+          </Tab>
+        ) : null}
+      </Tabs>
+      {selectedTab != "annotations" ? <div className="col-span-12 flex flex-wrap justify-center item pt-2">
         <Button
           {...(isEdit ? { disabled: false } : { disabled: true })}
           className="mx-1"
@@ -242,7 +239,7 @@ const ConsultantForm = ({ data, onClose, isNew = false }) => {
             {isEdit ? "Cancelar" : "Editar"}
           </Button>
         ) : null}
-      </div>
+      </div>: <div className="h-12"></div>}
     </form>
   );
 };
