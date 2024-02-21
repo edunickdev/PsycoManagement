@@ -1,6 +1,7 @@
 from bson import ObjectId
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
+from pydantic import TypeAdapter, parse_obj_as
 from pymongo import ReturnDocument
 from config.jwt_functions import JWTBearer
 from models.annotations_model import Annotations
@@ -52,12 +53,34 @@ def create_new_consultant( consultant: Consultant ):
     
 @consultant.post("/consultant/update-consultant/{id}", tags=["Therapist"])
 async def update_consultant(id: str, info: dict):
-    update_fields: dict = {field: info["newValues"][i] for i, field in enumerate(info["fields"])}
-    current_consultant = get_collection("Consultants").find_one_and_update(
-        {"_id": ObjectId(id)}, 
-        {"$set": update_fields}, 
-        return_document=ReturnDocument.AFTER
-    )
-    current_consultant
-    pass
+    myAnnotation = Annotations(**info.get("annotation", {}))
+    sizeFields = len(info["fields"])
+    sizeNewValues = len(info["newValues"])
+    try:
+        if sizeFields != 0 and sizeNewValues != 0 and sizeFields == sizeNewValues and myAnnotation:
+            update_fields: dict = {field: info["newValues"][i] for i, field in enumerate(info["fields"])}
+            current_consultant = get_collection("Consultants").find_one_and_update(
+                {"_id": ObjectId(id)}, 
+                {"$set": update_fields}, 
+                return_document=ReturnDocument.AFTER
+            )
+            new_annotation = dict(info["annotation"])
+            annotation = get_collection("Annotations").insert_one(new_annotation).inserted_id
+            new_annotation["_id"] = str(annotation)
+        else:
+            return JSONResponse(
+                status_code=403,
+                content={
+                    "result": "Mala petición uno o mas campos necesarios no han sido recibidos",
+                    "status": "datos incompletos"
+                }
+            )
+    except:
+        return JSONResponse(
+            status_code=403,
+            content={
+                "result": "No se tienen datos para actualizar",
+                "status": "Petición incompleta"
+            }
+        )
 
