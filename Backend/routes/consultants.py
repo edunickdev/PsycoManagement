@@ -1,5 +1,5 @@
 from bson import ObjectId
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, WebSocket
 from fastapi.responses import JSONResponse
 from pydantic import TypeAdapter, parse_obj_as
 from pymongo import ReturnDocument
@@ -11,6 +11,15 @@ from schemas.consultant_schema import consultantEntityList
 
 
 consultant = APIRouter()
+
+
+@consultant.websocket("/ws")
+async def websocket_consultant(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        data = await websocket.receive_text()
+        await websocket.send_text(f"Hola desde websocket {data}")
+
 
 
 @consultant.get("/consultants/{id_therapist}", tags=["Therapist"], dependencies=[Depends(JWTBearer())])
@@ -60,13 +69,29 @@ async def update_consultant(id: str, info: dict):
         if sizeFields != 0 and sizeNewValues != 0 and sizeFields == sizeNewValues and myAnnotation:
             update_fields: dict = {field: info["newValues"][i] for i, field in enumerate(info["fields"])}
             current_consultant = get_collection("Consultants").find_one_and_update(
-                {"_id": ObjectId(id)}, 
-                {"$set": update_fields}, 
+                {"_id": ObjectId(id)},
+                {"$set": update_fields},
                 return_document=ReturnDocument.AFTER
             )
             new_annotation = dict(info["annotation"])
             annotation = get_collection("Annotations").insert_one(new_annotation).inserted_id
             new_annotation["_id"] = str(annotation)
+            if annotation and current_consultant:
+                return JSONResponse(
+                    content={
+                        "result": "Actualización exitosa",
+                        "status": "actualización exitosa",
+                    },
+                    status_code=200
+                )
+            else:
+                return JSONResponse(
+                    status_code=403,
+                    content={
+                        "result": "Oh no, algo fallo guardando los datos",
+                        "status": "falla catastrofica"
+                    }
+                )
         else:
             return JSONResponse(
                 status_code=403,

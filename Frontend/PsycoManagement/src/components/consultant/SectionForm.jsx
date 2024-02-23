@@ -13,6 +13,7 @@ const SectionForm = ({
   amountElements,
   colSpan,
   withWrap = true,
+  rules
 }) => {
   const cols = ( !withWrap ) ? colSpan : 12 / amountElements;
 
@@ -22,6 +23,7 @@ const SectionForm = ({
     elements.push(
       <div className={`col-span-${cols}`} key={i}>
         <Controller
+          rules={rules[i]}
           name={name[i]}
           control={control}
           defaultValue={isNew ? "" : defaultValue[i]}
@@ -32,7 +34,7 @@ const SectionForm = ({
               size="sm"
               label={label[i]}
               labelPlacement="outside"
-              error={error[i]}
+              errorMessage={error[i] ? error[i].message : ""}
               readOnly={!isEdit}
               className={!withWrap ? "" : `col-span-${colSpan}`}
             />

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { Button, Checkbox, Tab, Tabs } from "@nextui-org/react";
+import { Button, Checkbox, Tab, Tabs, Textarea } from "@nextui-org/react";
 import { useState } from "react";
 import { Controller, set, useForm } from "react-hook-form";
 import SectionForm from "./SectionForm";
@@ -44,8 +44,6 @@ const ConsultantForm = ({ data: myData, onClose, isNew = false }) => {
   //   }
   // };
 
-  
-
   const allowEdit = async () => {
     onClose;
     setIsEdit(!isEdit);
@@ -53,6 +51,102 @@ const ConsultantForm = ({ data: myData, onClose, isNew = false }) => {
   };
 
   const [selectedTab, setSelectedTab] = useState("info");
+
+  const rulesNames = {
+    required: "Este campo es obligatorio",
+    maxLength: {
+      value: 40,
+      message: "Este campo no puede tener más de 50 caracteres",
+    },
+    minLength: {
+      value: 4,
+      message: "Este campo no puede tener menos de 3 caracteres",
+    },
+  };
+
+  const rulesPhone = {
+    required: "Este campo es obligatorio",
+    maxLength: {
+      value: 10,
+      message: "Este campo no puede tener más de 10 caracteres",
+    },
+    minLength: {
+      value: 7,
+      message: "Este campo no puede tener menos de 7 caracteres",
+    },
+    pattern: {
+      value: /^[0-9]*$/,
+      message: "Este campo solo puede contener números",
+    },
+  };
+
+  const rulesDocument = {
+    required: "Este campo es obligatorio",
+    maxLength: {
+      value: 15,
+      message: "Este campo no puede tener más de 20 caracteres",
+    },
+    minLength: {
+      value: 7,
+      message: "Este campo no puede tener menos de 4 caracteres",
+    },
+    pattern: {
+      value: /^[0-9]*$/,
+      message: "Este campo solo puede contener números",
+    },
+  };
+
+  const emailRules = {
+    required: "Este campo es obligatorio",
+    pattern: {
+      value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+      message: "Este campo debe ser un correo electrónico válido",
+    },
+    minLength: {
+      value: 10,
+      message: "Este campo no puede tener menos de 5 caracteres",
+    },
+    maxLength: {
+      value: 50,
+      message: "Este campo no puede tener más de 100 caracteres",
+    },
+  };
+
+  const addressRules = {
+    required: "Este campo es obligatorio",
+    maxLength: {
+      value: 100,
+      message: "Este campo no puede tener más de 100 caracteres",
+    },
+    minLength: {
+      value: 5,
+      message: "Este campo no puede tener menos de 10 caracteres",
+    },
+  };
+
+  const regionRules = {
+    required: "Este campo es obligatorio",
+    maxLength: {
+      value: 40,
+      message: "Este campo no puede tener más de 40 caracteres",
+    },
+    minLength: {
+      value: 3,
+      message: "Este campo no puede tener menos de 3 caracteres",
+    },
+  };
+
+  const healthRules = {
+    required: "Este campo es obligatorio",
+    maxLength: {
+      value: 40,
+      message: "Este campo no puede tener más de 20 caracteres",
+    },
+    minLength: {
+      value: 3,
+      message: "Este campo no puede tener menos de 5 caracteres",
+    },
+  };
 
   return (
     <form className="grid grid-cols-12" onSubmit={handleSubmit(onSubmit)}>
@@ -65,6 +159,7 @@ const ConsultantForm = ({ data: myData, onClose, isNew = false }) => {
         <Tab key="info" title="Información básica" className="col-span-12">
           <div className="h-80 overflow-y-auto py-1">
             <SectionForm
+              rules={[rulesNames, rulesNames]}
               isNew={isNew}
               name={["names", "last_names"]}
               control={control}
@@ -76,6 +171,7 @@ const ConsultantForm = ({ data: myData, onClose, isNew = false }) => {
             />
             <div className="col-span-12 grid grid-cols-12 pt-2 gap-1">
               <SectionForm
+                rules={[rulesPhone]}
                 isNew={isNew}
                 name={["phone"]}
                 control={control}
@@ -89,6 +185,21 @@ const ConsultantForm = ({ data: myData, onClose, isNew = false }) => {
               />
               {!isEdit ? (
                 <SectionForm
+                  rules={[
+                    {
+                      required: "Este campo es obligatorio",
+                      minLength: {
+                        value: 2,
+                        message:
+                          "Este campo no puede tener menos de 2 caracteres",
+                      },
+                      maxLength: {
+                        value: 2,
+                        message:
+                          "Este campo no puede tener más de 2 caracteres",
+                      },
+                    },
+                  ]}
                   isNew={isNew}
                   name={["type_document"]}
                   control={control}
@@ -108,6 +219,7 @@ const ConsultantForm = ({ data: myData, onClose, isNew = false }) => {
                 />
               )}
               <SectionForm
+                rules={[rulesDocument]}
                 isNew={isNew}
                 name={["document_number"]}
                 control={control}
@@ -121,6 +233,7 @@ const ConsultantForm = ({ data: myData, onClose, isNew = false }) => {
               />
             </div>
             <SectionForm
+              rules={[emailRules, addressRules]}
               isNew={isNew}
               name={["email", "address"]}
               control={control}
@@ -131,6 +244,7 @@ const ConsultantForm = ({ data: myData, onClose, isNew = false }) => {
               amountElements={2}
             />
             <SectionForm
+              rules={[regionRules, regionRules]}
               isNew={isNew}
               name={["city", "country"]}
               control={control}
@@ -141,6 +255,7 @@ const ConsultantForm = ({ data: myData, onClose, isNew = false }) => {
               amountElements={2}
             />
             <SectionForm
+              rules={[healthRules, healthRules, healthRules]}
               isNew={isNew}
               name={["regimen", "eps", "status"]}
               control={control}
@@ -152,6 +267,26 @@ const ConsultantForm = ({ data: myData, onClose, isNew = false }) => {
             />
             <div className="col-span-12 grid grid-cols-12 mt-3 gap-1">
               <SectionForm
+                rules={[
+                  {
+                    required: "Este campo es obligatorio",
+                    maxLength: {
+                      value: 10,
+                      message: "Este campo no puede tener más de 10 caractéres",
+                    },
+                    minLength: {
+                      value: 10,
+                      message:
+                        "Este campo no puede tener menos de 10 caractéres",
+                    },
+                    pattern: {
+                      value:
+                        /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
+                      message:
+                        "Por favor, ingresa una fecha válida en formato dd/mm/yyyy",
+                    },
+                  },
+                ]}
                 isNew={isNew}
                 name={["birth_date"]}
                 control={control}
@@ -165,6 +300,11 @@ const ConsultantForm = ({ data: myData, onClose, isNew = false }) => {
               />
               <div className="col-span-6 flex justify-center items-center">
                 <Controller
+                  rules={[
+                    {
+                      required: "Este campo es obligatorio",
+                    },
+                  ]}
                   name="isChild"
                   control={control}
                   defaultValue={myData.isChild}
@@ -188,6 +328,21 @@ const ConsultantForm = ({ data: myData, onClose, isNew = false }) => {
             {isChild ? (
               <div className="col-span-12 grid grid-cols-12 mt-3 gap-1">
                 <SectionForm
+                  rules={[
+                    {
+                      required: "Este campo es obligatorio",
+                      minLength: {
+                        value: 4,
+                        message:
+                          "Este campo no puede tener menos de 4 caracteres",
+                      },
+                      maxLength: {
+                        value: 50,
+                        message:
+                          "Este campo no puede tener más de 40 caracteres",
+                      },
+                    },
+                  ]}
                   isNew={isNew}
                   name={["names_responsible"]}
                   control={control}
@@ -198,6 +353,7 @@ const ConsultantForm = ({ data: myData, onClose, isNew = false }) => {
                   amountElements={1}
                 />
                 <SectionForm
+                  rules={[rulesPhone, emailRules]}
                   isNew={isNew}
                   name={["phone_responsible", "email_responsible"]}
                   control={control}
@@ -213,6 +369,33 @@ const ConsultantForm = ({ data: myData, onClose, isNew = false }) => {
               </div>
             ) : null}
           </div>
+          {isEdit && !isNew ? (
+            <Controller
+              name="justification"
+              control={control}
+              defaultValue={""}
+              rules={{
+                required: "Este campo es obligatorio",
+                minLength: {
+                  value: 10,
+                  message: "Este campo no puede tener menos de 10 caracteres",
+                },
+                maxLength: {
+                  value: 100,
+                  message: "Este campo no puede tener más de 100 caracteres",
+                },
+              }}
+              render={({ field }) => (
+                <Textarea
+                  {...field}
+                  errorMessage={errors.justification && errors.justification.message}
+                  label="Justificación"
+                  placeholder="Para hacer efectivos los cambios es necesario que justifiques el motivo de la modificación"
+                >
+                </Textarea>
+              )}
+            />
+          ) : null}
         </Tab>
         {myData.annotations != 0 ? (
           <Tab key="annotations" title="Anotaciones" className="col-span-12">
@@ -222,24 +405,28 @@ const ConsultantForm = ({ data: myData, onClose, isNew = false }) => {
           </Tab>
         ) : null}
       </Tabs>
-      {selectedTab != "annotations" ? <div className="col-span-12 flex flex-wrap justify-center item pt-2">
-        <Button
-          {...(isEdit ? { disabled: false } : { disabled: true })}
-          className="mx-1"
-          {...(isEdit ? { color: "success" } : { color: "default" })}
-          onPress={() => {
-            onClose;
-          }}
-          type="submit"
-        >
-          Guardar
-        </Button>
-        {!isNew ? (
-          <Button color={isEdit ? "danger" : "primary"} onPress={allowEdit}>
-            {isEdit ? "Cancelar" : "Editar"}
+      {selectedTab != "annotations" ? (
+        <div className="col-span-12 flex flex-wrap justify-center item pt-2">
+          <Button
+            {...(isEdit ? { disabled: false } : { disabled: true })}
+            className="mx-1"
+            {...(isEdit ? { color: "success" } : { color: "default" })}
+            onPress={() => {
+              onClose;
+            }}
+            type="submit"
+          >
+            Guardar
           </Button>
-        ) : null}
-      </div>: <div className="h-12"></div>}
+          {!isNew ? (
+            <Button color={isEdit ? "danger" : "primary"} onPress={allowEdit} >
+              {isEdit ? "Cancelar" : "Editar"}
+            </Button>
+          ) : null}
+        </div>
+      ) : (
+        <div className="h-12"></div>
+      )}
     </form>
   );
 };

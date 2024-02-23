@@ -33,7 +33,7 @@ export const updateConsultant = (data, oldData) => {
     fields: fieldModified,
     old_values: oldValuesList,
     new_values: newValuesList,
-    justification: "1234567891011"
+    justification: data.justification,
   };
   console.log(
     `esta es la annotation que se crea: ${JSON.stringify(annotation)}`
