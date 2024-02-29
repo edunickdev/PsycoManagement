@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'screens/login_screen.dart';
+import 'package:psyco_admin/config/theme/custom_theme.dart';
+import 'presentation/screens/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,15 +12,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(useMaterial3: true),
+      theme: CustomTheme(selectedColor: 2).myTheme(),
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Center(
-          child: LoginScreen(),
+          child: AuthScreen(mode: true)
         ),
       ),
     );
   }
 }
-
 

@@ -17,7 +17,7 @@ def consultantEntity(Consultant) -> dict:
         "birth_date": Consultant["birth_date"], 
         "num_contact_emergency": Consultant["num_contact_emergency"], 
         "isChild": Consultant["isChild"], 
-        "email_responsible": Consultant["email_responsible"], 
+        "email_responsible": Consultant["email_responsible"],
         "phone_responsible": Consultant["phone_responsible"], 
         "names_responsible": Consultant["names_responsible"], 
         "status": Consultant["status"],

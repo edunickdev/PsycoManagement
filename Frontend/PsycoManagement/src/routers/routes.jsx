@@ -31,7 +31,7 @@ export const AppRouter = () => {
           }
         />
         <Route path="/agenda" element={<AgendaPage />} />
-        <Route path="*" element={<HomePage />} />
+        <Route path="*" element={<AuthPage />} />
         <Route path="/event-form" element={<EventForm />} />
       </Routes>
     </BrowserRouter>

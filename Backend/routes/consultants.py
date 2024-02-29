@@ -1,7 +1,6 @@
 from bson import ObjectId
 from fastapi import APIRouter, Depends, WebSocket
 from fastapi.responses import JSONResponse
-from pydantic import TypeAdapter, parse_obj_as
 from pymongo import ReturnDocument
 from config.jwt_functions import JWTBearer
 from models.annotations_model import Annotations
