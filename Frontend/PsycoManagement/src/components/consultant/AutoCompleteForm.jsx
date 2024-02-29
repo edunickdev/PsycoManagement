@@ -12,11 +12,22 @@ const AutocompleteForm = ({ name, defaultValue, defaultInputValue }) => {
   return (
     <Controller
       name={name}
+      rules={{
+        required: "Este campo es obligatorio",
+        minLength: {
+          value: 2,
+          message: "Este campo no puede tener menos de 2 caracteres",
+        },
+        maxLength: {
+          value: 2,
+          message: "Este campo no puede tener más de 2 caracteres",
+        },
+      }}
       control={control}
       defaultValue={defaultValue}
       render={({ field }) => (
         <Autocomplete
-        className="col-span-4"
+          className="col-span-4"
           {...field}
           size="sm"
           label="Tipo"

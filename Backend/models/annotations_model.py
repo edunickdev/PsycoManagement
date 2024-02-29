@@ -7,7 +7,7 @@ class Annotations(BaseModel):
     id_therapist: str
     creation_date: str = Field(default=datetime.now().strftime("%Y/%m/%d %H:%M"))
     fields: list[str]
-    old_values: list[str | int | bool | float]
-    new_values: list[str | int | bool | float]
+    old_values: list[str | int | bool | float | None]
+    new_values: list[str | int | bool | float | None]
     justification: str = Field(min_length=10)
     

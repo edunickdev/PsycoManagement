@@ -18,12 +18,14 @@ app.include_router(annotations)
 
 origin = {
     'http://localhost:5173',
-    'https://psycoadmin.netlify.app'
+    'https://psycoadmin.netlify.app',
+    'http://127.0.0.1:8080/',
+    'ws://127.0.0.1:62325/myFrpjr5FMU=/ws'
 }
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origin,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
