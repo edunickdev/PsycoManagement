@@ -1,50 +1,28 @@
-// ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/providers.dart';
 import '../widgets/sign_in_widget.dart';
 import '../widgets/sign_up_widget.dart';
 
-class AuthScreen extends StatefulWidget {
-  bool mode;
-
-  AuthScreen({super.key, required this.mode});
+class AuthScreen extends ConsumerWidget {
+  const AuthScreen({Key? key}) : super(key: key);
 
   @override
-  State<AuthScreen> createState() => _AuthScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final mode = ref.watch(modeAuthProvider);
 
-class _AuthScreenState extends State<AuthScreen> {
-  final GlobalKey<FormState> myFormState = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = Theme.of(context).colorScheme;
-
-    return SingleChildScrollView(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 60),
-        child: Column(
-          children: [
-            Form(
-                key: myFormState,
-                child: widget.mode ? const SignInWidget() : const SignUpWidget()),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton.tonal(
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(palette.surfaceVariant),
-                ),
-                onPressed: () {
-                  setState(() {
-                    widget.mode = !widget.mode;
-                  });
-                },
-                child:
-                    Text(widget.mode ? "No tengo cuenta" : "Ya tengo cuenta"),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 170),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Form(
+                child: mode ? const SignInWidget() : const SignUpWidget(),
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );

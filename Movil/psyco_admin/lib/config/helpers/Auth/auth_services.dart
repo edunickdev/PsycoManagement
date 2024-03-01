@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
 
 import '../../../domain/Entities/userin.dart';
+import '../../shared/shareds.dart';
 
 Future loadEnvs() async {
   await dotenv.load(fileName: "assets/.env");
@@ -12,32 +13,44 @@ Future loadEnvs() async {
 
 final _dio = Dio();
 
-Future<UserIn?> loginAuth(String email, String password) async {
+Future<UserIn> signIn(String email, String password) async {
   await loadEnvs();
-  final endpointUrl = dotenv.get("BASE_API_URL");
+
+  final endpointUrl = dotenv.get("BASE_API_URL_EXTERN");
   final requestData = {
     'email': email,
     'password': password,
   };
 
-  try {
-    final response = await _dio.post(
-      "$endpointUrl/auth/login",
-      data: jsonEncode(requestData),
-      options: Options(
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      ),
-    );
-    if (response.data != null) {
-      UserIn user = userInFromJson(jsonEncode(response.data));
-      return user;
-    }
-    return null;
-  } catch (error, stacktrace) {
-    print('Error: $error');
-    print('Stacktrace: $stacktrace');
-    return null;
-  }
+  final response = await _dio.post(
+    "$endpointUrl/auth/login",
+    data: jsonEncode(requestData),
+    options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    ),
+  );
+
+  UserIn user = userInFromJson(jsonEncode(response.data));
+  saveInfoUser(user);
+  return user;
+}
+
+Future signUp(Therapist therapist) async {
+  print(therapist);
+  await loadEnvs();
+
+  final endpointUrl = dotenv.get("BASE_API_URL_EXTERN");
+  final requestData = therapistToJson(therapist);
+
+  final response = await _dio.post(
+    "$endpointUrl/auth/sign-up",
+    data: requestData,
+    options: Options(
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    ),
+  );
 }
