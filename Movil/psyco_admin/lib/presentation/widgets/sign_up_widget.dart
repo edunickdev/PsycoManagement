@@ -2,6 +2,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../config/helpers/Auth/auth_services.dart';
+// import '../../domain/Entities/user_entity.dart';
 import '../providers/providers.dart';
 
 class SignUpWidget extends ConsumerWidget {
@@ -13,7 +15,6 @@ class SignUpWidget extends ConsumerWidget {
     final passwordController = TextEditingController();
     final namesController = TextEditingController();
     final lastNamesController = TextEditingController();
-    final mode = ref.watch(modeAuthProvider);
     final palette = Theme.of(context).colorScheme;
 
     return FadeInUp(
@@ -62,24 +63,67 @@ class SignUpWidget extends ConsumerWidget {
           SizedBox(
             width: double.infinity,
             child: FilledButton.tonal(
-                onPressed: () {
-                  print(emailController.text);
+                onPressed: () async {
+                  if (context.mounted) {
+                    final result = await signUp(
+                        "${namesController.value.text} ${lastNamesController.value.text}",
+                        emailController.value.text,
+                        passwordController.value.text);
+
+                    if (context.mounted) {
+                      switch (result.status) {
+                        case "usuario creado":
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(result.message),
+                            backgroundColor: palette.surfaceVariant,
+                            duration: const Duration(seconds: 4),
+                          ));
+                          ref
+                              .read(modeAuthProvider.notifier)
+                              .update((state) => !state);
+                          break;
+                        case "usuario ya existe":
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(result.message),
+                            backgroundColor: Colors.blue,
+                            duration: const Duration(seconds: 4),
+                          ));
+                        default:
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: const Text(
+                                "Oh no, no pudimos realizar el registra, intenta nuevamente"),
+                            backgroundColor: Colors.green[600],
+                            duration: const Duration(seconds: 4),
+                          ));
+                      }
+                    } else {
+                      throw Exception();
+                    }
+                  }
+
+                  namesController.clear();
+                  lastNamesController.clear();
                   emailController.clear();
-                  print(passwordController.text);
                   passwordController.clear();
                 },
-                child: const Text("Registrarme")),
+                child: Text(
+                  "Registrarme",
+                  style: TextStyle(fontSize: 16, color: palette.secondary),
+                )),
           ),
           SizedBox(
             width: double.infinity,
             child: FilledButton.tonal(
                 style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(palette.surfaceVariant)),
+                        MaterialStateProperty.all(palette.inversePrimary)),
                 onPressed: () {
                   ref.read(modeAuthProvider.notifier).update((state) => !state);
                 },
-                child: Text(mode ? "No tengo cuenta" : "Ya tengo cuenta")),
+                child: Text(
+                  "Ya tengo cuenta",
+                  style: TextStyle(fontSize: 16, color: palette.secondary),
+                )),
           )
         ],
       ),

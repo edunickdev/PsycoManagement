@@ -10,10 +10,9 @@ class SignInWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
     final palette = Theme.of(context).colorScheme;
-    final mode = ref.watch(modeAuthProvider);
 
     return FadeInDown(
       child: Column(
@@ -44,7 +43,8 @@ class SignInWidget extends ConsumerWidget {
           TextFormField(
             controller: passwordController,
             obscureText: true,
-            decoration: const InputDecoration(label: Text("Contraseña")),
+            decoration: const InputDecoration(
+                label: Text("Contraseña"), fillColor: Colors.amber),
             validator: (value) {
               String message = "";
               if (value == null || value.isEmpty) {
@@ -64,48 +64,61 @@ class SignInWidget extends ConsumerWidget {
             width: double.infinity,
             child: FilledButton.tonal(
                 onPressed: () async {
-                  final result = await signIn(emailController.value.text,
-                      passwordController.value.text);
+                  if (context.mounted) {
+                    final result = await signIn(emailController.value.text,
+                        passwordController.value.text);
 
-                  switch (result.status) {
-                    case "inicio exitoso":
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        backgroundColor: palette.secondary,
-                        content: Text(
-                            "Inicio Exitoso, un gusto verte ${result.names.split(" ")[0]}"),
-                        duration: const Duration(seconds: 3),
-                      ));
-                      break;
-                    case "información incorrecta":
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        backgroundColor: Colors.red[200],
-                        content: const Text(
-                            "Algo en tus datos no es correcto, intenta de nuevo."),
-                        duration: const Duration(seconds: 4),
-                      ));
-                    default:
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        backgroundColor: Colors.red[200],
-                        content: const Text(
-                            "Oh no algo esta mal, intenta mas tarde."),
-                        duration: const Duration(seconds: 4),
-                      ));
+                    if (context.mounted) {
+                      switch (result.status) {
+                        case "inicio exitoso":
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            backgroundColor: Colors.green[600],
+                            content: Text(
+                              "Inicio Exitoso, un gusto verte ${result.names.split(" ")[0]}",
+                              style: const TextStyle(
+                                  fontSize: 15, color: Colors.black87),
+                            ),
+                            duration: const Duration(seconds: 3),
+                          ));
+                          break;
+                        case "información incorrecta":
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            backgroundColor: Colors.red[200],
+                            content: Text(result.message),
+                            duration: const Duration(seconds: 4),
+                          ));
+                        default:
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            backgroundColor: Colors.red[200],
+                            content: const Text(
+                                "Oh no algo esta mal, intenta mas tarde."),
+                            duration: const Duration(seconds: 4),
+                          ));
+                      }
+                    }
                   }
+
                   emailController.clear();
                   passwordController.clear();
                 },
-                child: const Text("Iniciar Sesión")),
+                child: Text(
+                  "Iniciar Sesión",
+                  style: TextStyle(fontSize: 16, color: palette.secondary),
+                )),
           ),
           SizedBox(
             width: double.infinity,
             child: FilledButton.tonal(
                 style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(palette.surfaceVariant)),
+                        MaterialStateProperty.all(palette.inversePrimary)),
                 onPressed: () {
                   ref.read(modeAuthProvider.notifier).update((state) => !state);
                 },
-                child: Text(mode ? "No tengo cuenta" : "Ya tengo cuenta")),
+                child: Text(
+                  "No tengo cuenta",
+                  style: TextStyle(fontSize: 16, color: palette.secondary),
+                )),
           )
         ],
       ),

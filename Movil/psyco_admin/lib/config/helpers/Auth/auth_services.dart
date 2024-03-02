@@ -1,8 +1,10 @@
 import 'dart:convert';
 
-import 'package:psyco_admin/domain/Entities/user_entity.dart';
+// import 'package:psyco_admin/domain/Entities/user_entity.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:dio/dio.dart';
+import 'package:bcrypt/bcrypt.dart';
+import 'package:psyco_admin/domain/Entities/userup.dart';
 
 import '../../../domain/Entities/userin.dart';
 import '../../shared/shareds.dart';
@@ -37,12 +39,17 @@ Future<UserIn> signIn(String email, String password) async {
   return user;
 }
 
-Future signUp(Therapist therapist) async {
-  print(therapist);
+Future<UserUp> signUp(String names, String email, String password) async {
   await loadEnvs();
 
   final endpointUrl = dotenv.get("BASE_API_URL_EXTERN");
-  final requestData = therapistToJson(therapist);
+  final hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+
+  final requestData = {
+    "names": names,
+    "email": email,
+    "password": hashedPassword,
+  };
 
   final response = await _dio.post(
     "$endpointUrl/auth/sign-up",
@@ -53,4 +60,8 @@ Future signUp(Therapist therapist) async {
       },
     ),
   );
+
+  UserUp newUser = userUpFromJson(jsonEncode(response.data));
+
+  return newUser;
 }
