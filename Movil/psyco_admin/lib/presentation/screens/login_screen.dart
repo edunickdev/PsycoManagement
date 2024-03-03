@@ -6,6 +6,8 @@ import '../widgets/sign_in_widget.dart';
 import '../widgets/sign_up_widget.dart';
 
 class AuthScreen extends ConsumerWidget {
+  static const name = "auth";
+
   const AuthScreen({Key? key}) : super(key: key);
 
   @override

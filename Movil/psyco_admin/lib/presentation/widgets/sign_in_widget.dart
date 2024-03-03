@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../config/helpers/Auth/auth_services.dart';
 import '../providers/providers.dart';
@@ -80,6 +81,7 @@ class SignInWidget extends ConsumerWidget {
                             ),
                             duration: const Duration(seconds: 3),
                           ));
+                          context.push("home");
                           break;
                         case "información incorrecta":
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(

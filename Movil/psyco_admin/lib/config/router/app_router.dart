@@ -1,13 +1,22 @@
 import 'package:go_router/go_router.dart';
-import 'package:psyco_admin/presentation/screens/login_screen.dart';
+
+import '../../presentation/screens/screens.dart';
 
 final appRouter = GoRouter(
-  initialLocation: "/",
+  initialLocation: "/auth",
   routes: [
     GoRoute(
-        path: "/",
+        path: "/auth",
+        name: AuthScreen.name,
         builder: (context, state) {
           return const AuthScreen();
         }),
+    GoRoute(
+      path: "/home",
+      name: HomeScreen.name,
+      builder: (context, state) {
+        return const HomeScreen();
+      },
+    )
   ],
 );
