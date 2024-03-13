@@ -2,8 +2,10 @@
 import { Button, Card, CardFooter, Image, ModalFooter, Modal, ModalContent, ModalHeader, ModalBody, useDisclosure } from "@nextui-org/react";
 import { staticFiles } from "../../config/statics";
 import { useNavigate } from "react-router-dom";
+import { TherapistAuth } from "../../context/AuthContext";
 
 const Cards = ({ data }) => {
+  const { user } = TherapistAuth();
   const { subtitle, image, description, title } = data;
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const route = useNavigate();
@@ -38,12 +40,12 @@ const Cards = ({ data }) => {
                 <Button color="danger" variant="light" onPress={onClose}>
                   Cerrar
                 </Button>
-                <Button color="success" onPress={() => {
+                {!user ? <Button color="success" onPress={() => {
                   onClose
                   route('/auth')
                 }}>
-                  Registrate
-                </Button>
+                  Explorar más
+                </Button> : null}
               </ModalFooter>
             </>
           )}

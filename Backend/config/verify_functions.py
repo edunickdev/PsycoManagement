@@ -38,6 +38,6 @@ def verify_therapist_credentials(email: str, password: str):
         )
         return JSONResponse(
             content=resp,
-            status_code=403,
+            status_code=200,
         )
 
