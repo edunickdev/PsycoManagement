@@ -19,7 +19,7 @@ export const AppRouter = () => {
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/auth" element={user ? <HomePage /> : <AuthPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/" element={<Navigate to="/home" />} />
         <Route
@@ -31,7 +31,7 @@ export const AppRouter = () => {
           }
         />
         <Route path="/agenda" element={<AgendaPage />} />
-        <Route path="*" element={<AuthPage />} />
+        <Route path="*" element={user ? <HomePage /> : <AuthPage />} />
         <Route path="/event-form" element={<EventForm />} />
       </Routes>
     </BrowserRouter>

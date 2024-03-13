@@ -7,7 +7,7 @@ import {
   User,
 } from "@nextui-org/react";
 import { staticFiles } from "../../config/statics";
-import { UserTwitterCard } from "./usercard";
+import { UserCard } from "./usercard";
 import { TherapistAuth } from "../../context/AuthContext";
 
 const Navbar = () => {
@@ -73,7 +73,7 @@ const Navbar = () => {
             />
           </PopoverTrigger>
           <PopoverContent className="p-1">
-            <UserTwitterCard />
+            <UserCard />
           </PopoverContent>
         </Popover>
       </div>

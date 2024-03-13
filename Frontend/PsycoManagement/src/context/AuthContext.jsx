@@ -7,6 +7,7 @@ export const AuthTherapist = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [mode, setMode] = useState(false);
 
   const postSignUp = async ({ data }) => {
     const urlApi = `${API_BASE_URL}auth/sign-up`;
@@ -64,10 +65,16 @@ export const AuthContextProvider = ({ children }) => {
     setUser(null);
   };
 
+  const setModeAuth = (value) => {
+    setMode(value);
+  };
+
   return (
     <AuthTherapist.Provider
       value={{
         user,
+        mode,
+        setModeAuth,
         postSignIn,
         postSignUp,
         getToken,
