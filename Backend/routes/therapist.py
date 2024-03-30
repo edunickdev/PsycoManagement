@@ -20,7 +20,7 @@ def register_therapist(therapist: Therapist):
                 "message": f"El correo {therapist.email} ya se encuentra registrado",
                 "status": "usuario ya existe"
             },
-            status_code=200
+            status_code=409
         )
     new_therapist = dict(therapist)
     new_id = get_collection("User").insert_one(new_therapist).inserted_id
@@ -30,7 +30,7 @@ def register_therapist(therapist: Therapist):
             "message": "Usuario creado correctamente",
             "status": "usuario creado"
         },
-        status_code=200
+        status_code=201
     )
 
 
@@ -45,7 +45,7 @@ async def login_therapist( data: dict):
                 message="Oh no algo fallo en la petición",
                 status="Mala petición"
             ),
-            status_code=200
+            status_code=400
         )
 
 

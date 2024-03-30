@@ -7,6 +7,8 @@ import ConsultanPage from "../pages/ConsultanPage";
 import AgendaPage from "../pages/AgendaPage";
 import EventForm from "../components/calendar/EventForm";
 import Navbar from "../components/navbar/mainNavbar";
+import ProfilePage from "../pages/ProfilePage";
+import RecoverPage from "../pages/RecoverPage";
 
 export const AppRouter = () => {
   const { user } = TherapistAuth();
@@ -21,6 +23,15 @@ export const AppRouter = () => {
       <Routes>
         <Route path="/auth" element={user ? <HomePage /> : <AuthPage />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/recover" element={<RecoverPage />} />
+        <Route
+          path="/profile"
+          element={
+            <RequireAuth>
+              <ProfilePage />
+            </RequireAuth>
+          }
+        />
         <Route path="/" element={<Navigate to="/home" />} />
         <Route
           path="/consultants"
@@ -30,7 +41,14 @@ export const AppRouter = () => {
             </RequireAuth>
           }
         />
-        <Route path="/agenda" element={<AgendaPage />} />
+        <Route
+          path="/agenda"
+          element={
+            <RequireAuth>
+              <AgendaPage />
+            </RequireAuth>
+          }
+        />
         <Route path="*" element={user ? <HomePage /> : <AuthPage />} />
         <Route path="/event-form" element={<EventForm />} />
       </Routes>
