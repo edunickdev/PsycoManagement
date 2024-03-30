@@ -14,6 +14,7 @@ class AuthScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mode = ref.watch(modeAuthProvider);
     final palette = Theme.of(context).colorScheme;
+    final formValidations = GlobalKey<FormState>();
 
     return Scaffold(
       body: SafeArea(
@@ -34,8 +35,11 @@ class AuthScreen extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Form(
-                    autovalidateMode: AutovalidateMode.disabled,
-                    child: mode ? const SignInWidget() : const SignUpWidget(),
+                    key: formValidations,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: mode
+                        ? SignInWidget(formKey: formValidations)
+                        : SignUpWidget(formKey: formValidations),
                   ),
                 ],
               ),

@@ -23,10 +23,10 @@ def responseEntity(
         token: str = "",
         id: str = "",
         names: str = ""):
-    return {
-        "message": message,
-        "status": status,
-        "token": token,
-        "id": id,
-        "names": names
-    }
+    return ResponseLogin(
+        message=message,
+        status=status,
+        token=token,
+        id=id,
+        names=names
+    ).toDict()
