@@ -2,7 +2,6 @@ from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from config.jwt_functions import verify_token
 from config.verify_functions import verify_therapist_credentials
-from models.responseLogin import ResponseLogin
 from models.therapist_model import Therapist
 from config.connection import get_collection
 from schemas.response_login_schema import responseEntity

@@ -30,7 +30,7 @@ def create_event(event: Event):
     event_id = get_collection("Events").insert_one(new_event).inserted_id
     new_event["_id"] = str(event_id)
     return JSONResponse(
-         content={
+        content={
             "message": "Evento creado correctamente",
             "status": "Evento creado",
         },

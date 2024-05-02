@@ -20,12 +20,11 @@ origin = {
     'http://localhost:5173',
     'https://psycoadmin.netlify.app',
     'http://127.0.0.1:8080/',
-    'ws://127.0.0.1:62325/myFrpjr5FMU=/ws'
 }
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origin,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]

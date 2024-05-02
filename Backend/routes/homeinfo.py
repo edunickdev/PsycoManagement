@@ -8,7 +8,7 @@ from schemas.home_info_schema import homeInfoEntityList
 homeinfo = APIRouter()
 
 
-@homeinfo.get("/home", tags=["Home"], dependencies=[Depends(JWTBearer())])
+@homeinfo.get("/home", tags=["Home"])
 def find_all_home_info():
     cursor = get_collection("Home").find()
     return homeInfoEntityList(cursor)
