@@ -1,4 +1,3 @@
-from typing import Collection
 from urllib.parse import quote_plus
 from pymongo import MongoClient
 from dotenv import load_dotenv

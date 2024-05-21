@@ -8,13 +8,13 @@ from schemas.home_info_schema import homeInfoEntityList
 homeinfo = APIRouter()
 
 
-@homeinfo.get("/home", tags=["Home"])
+@homeinfo.get("/", tags=["Home"])
 def find_all_home_info():
     cursor = get_collection("Home").find()
     return homeInfoEntityList(cursor)
 
 
-@homeinfo.post("/home", tags=["Home"])
+@homeinfo.post("/", tags=["Home"])
 def create_home_info(homeInfo: HomeInfo):
     data = dict(homeInfo)
     new_id = get_collection("Home").insert_one(data).inserted_id

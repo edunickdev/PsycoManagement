@@ -10,7 +10,7 @@ from schemas.response_login_schema import responseEntity
 therapist = APIRouter()
 
 
-@therapist.post("/auth/sign-up", tags=["Authentication"])
+@therapist.post("/sign-up", tags=["Authentication"])
 def register_therapist(therapist: Therapist):
     is_exist = get_collection("User").find_one({"email": therapist.email})
     if is_exist:
@@ -33,7 +33,7 @@ def register_therapist(therapist: Therapist):
     )
 
 
-@therapist.post("/auth/login", tags=["Authentication"])
+@therapist.post("/login", tags=["Authentication"])
 async def login_therapist( data: dict):
     try:
         user = verify_therapist_credentials(data["email"], data["password"])
@@ -48,7 +48,7 @@ async def login_therapist( data: dict):
         )
 
 
-@therapist.post("/auth/verify", tags=["Authentication"])
+@therapist.post("/verify", tags=["Authentication"])
 def verify_token_expire(token: str):
     result = token.split(" ")[1]
     return verify_token(result, output=True)

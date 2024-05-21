@@ -10,11 +10,11 @@ app = FastAPI()
 
 
 app.title = "PsycoAdmin API"
-app.include_router(therapist)
-app.include_router(homeinfo)
-app.include_router(consultant)
-app.include_router(event)
-app.include_router(annotations)
+app.include_router(therapist, prefix="/auth")
+app.include_router(homeinfo, prefix="/home")
+app.include_router(consultant, prefix="/consultants")
+app.include_router(event, prefix="/events")
+app.include_router(annotations, prefix="/annotations")
 
 origin = {
     'http://localhost:5173',

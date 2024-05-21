@@ -21,7 +21,7 @@ async def websocket_consultant(websocket: WebSocket):
 
 
 
-@consultant.get("/consultants/{id_therapist}", tags=["Therapist"], dependencies=[Depends(JWTBearer())])
+@consultant.get("/{id_therapist}", tags=["Therapist"], dependencies=[Depends(JWTBearer())])
 def get_therapist_consultants( id_therapist: str ):
     cursor = get_collection("Consultants").find( {"id_therapist": str(id_therapist)} )
     consultants = consultantEntityList(cursor)
@@ -35,7 +35,7 @@ def get_therapist_consultants( id_therapist: str ):
     )
 
 
-@consultant.post("/consultants/new-consultant", tags=["Therapist"], dependencies=[Depends(JWTBearer())])
+@consultant.post("/new-consultant", tags=["Therapist"], dependencies=[Depends(JWTBearer())])
 def create_new_consultant( consultant: Consultant ):
     new_consultant = dict(consultant)
     first_condition = get_collection("Consultants").find_one({"email": consultant.email})
@@ -59,7 +59,7 @@ def create_new_consultant( consultant: Consultant ):
     )
     
     
-@consultant.post("/consultant/update-consultant/{id}", tags=["Therapist"])
+@consultant.post("/update-consultant/{id}", tags=["Therapist"])
 async def update_consultant(id: str, info: dict):
     myAnnotation = Annotations(**info.get("annotation", {}))
     sizeFields = len(info["fields"])
