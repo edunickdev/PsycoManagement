@@ -17,7 +17,7 @@ const Navbar = () => {
   return (
     <nav className="grid grid-cols-12 grid-rows-5 my-2 fixed w-full py-1 z-30 h-20 pb-5">
       <div className="col-span-2 row-span-5"></div>
-      <div className="col-span-8 row-span-3 bg-blue-900 px-5 rounded-xl -mb-5 shadow-md shadow-black">
+      <div className="col-span-8 row-span-3 bg-quinary px-14 rounded-2xl -mb-5 shadow-md shadow-cuarter">
         <ul className="flex justify-between items-center h-full text-2xl text-gray-300">
           <li>
             <Link
@@ -36,7 +36,7 @@ const Navbar = () => {
             </Link>
           </li>
           <Link to={"/home"}>
-            <div className="flex items-center bg-white -mb-8 relative rounded-full p-2 shadow-md shadow-gray-800 border border-solid border-gray-500">
+            <div className="flex items-center bg-white -mb-6 relative rounded-full p-2 shadow-md shadow-cuarter border border-solid border-cuarter">
               <img
                 src={staticFiles.mainLogo}
                 alt={staticFiles.mainLogo}

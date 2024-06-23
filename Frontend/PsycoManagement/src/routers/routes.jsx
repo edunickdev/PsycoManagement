@@ -6,7 +6,7 @@ import { TherapistAuth } from "../context/AuthContext";
 import ConsultanPage from "../pages/ConsultanPage";
 import AgendaPage from "../pages/AgendaPage";
 import EventForm from "../components/calendar/EventForm";
-import Navbar from "../components/navbar/mainNavbar";
+import Navbar from "../components/Navbar/mainNavbar";
 import ProfilePage from "../pages/ProfilePage";
 import RecoverPage from "../pages/RecoverPage";
 

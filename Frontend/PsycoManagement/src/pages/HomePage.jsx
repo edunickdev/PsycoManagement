@@ -10,7 +10,7 @@ const HomePage = () => {
           autoPlay
           loop
           muted
-          className="h-screen py-10 w-screen object-cover"
+          className="h-screen w-screen object-cover"
         >
           <source src={staticFiles.shortHome} type="video/mp4" />
         </video>

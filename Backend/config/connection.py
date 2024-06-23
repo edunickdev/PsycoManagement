@@ -22,5 +22,3 @@ def get_collection(collection: str, myDB = db):
     response = myDB[f"{collection}"]
     return response
 
-
-

@@ -4,6 +4,7 @@ from routes.homeinfo import homeinfo
 from routes.consultants import consultant
 from routes.events import event
 from routes.annotations import annotations
+from routes.profile import profile
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -15,6 +16,7 @@ app.include_router(homeinfo, prefix="/home")
 app.include_router(consultant, prefix="/consultants")
 app.include_router(event, prefix="/events")
 app.include_router(annotations, prefix="/annotations")
+app.include_router(profile, prefix="/profile")
 
 origin = {
     'http://localhost:5173',
