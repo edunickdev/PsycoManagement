@@ -1,3 +1,4 @@
+3/* eslint-disable react/prop-types */
 import { Image, Input } from "@nextui-org/react";
 
 const BasicInfoComponent = ({ myInfo, edit }) => {
