@@ -56,8 +56,8 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const getId = () => {
-    const token = sessionStorage.getItem("id");
-    return token;
+    const id = sessionStorage.getItem("id");
+    return id;
   };
 
   const logOff = () => {

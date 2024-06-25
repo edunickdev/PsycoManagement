@@ -15,7 +15,7 @@ profile = APIRouter()
 @profile.get(
         "/{id_therapist}", 
         tags=["Therapist"],
-        # dependencies=[Depends(JWTBearer())],
+        dependencies=[Depends(JWTBearer())],
       )
 def get_therapist_info( id_therapist: str ):
     print(id_therapist)
