@@ -19,7 +19,7 @@ app.include_router(annotations, prefix="/annotations")
 app.include_router(profile, prefix="/profile")
 
 origin = {
-    'http://localhost:5173',
+    'http://localhost:5174',
     'https://psycoadmin.netlify.app',
     'http://127.0.0.1:8080/',
 }
