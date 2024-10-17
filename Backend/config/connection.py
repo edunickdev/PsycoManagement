@@ -1,17 +1,18 @@
 from urllib.parse import quote_plus
 from pymongo import MongoClient
 from dotenv import load_dotenv
-from os import getenv
+import os
 
 
 load_dotenv()
 
 
-password = quote_plus(getenv('pass'))
-user = quote_plus(getenv('mail'))
+password = os.getenv('pass')
+user = os.getenv('mail')
 
+user = quote_plus(user)
 
-connection = MongoClient(f"mongodb+srv://{user}:{password}@psycoadmin-cluster.rjpmk7x.mongodb.net/?retryWrites=true&w=majority")
+connection = MongoClient(f"mongodb+srv://nickstark91:iErEx3vY5Fcq3i8e@ecrprojects.oingc.mongodb.net/")
 db = connection["PsycoAdmin"]
 
 user_collection = db["User"]

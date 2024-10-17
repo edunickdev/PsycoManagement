@@ -9,7 +9,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-
 app.title = "PsycoAdmin API"
 app.include_router(therapist, prefix="/auth")
 app.include_router(homeinfo, prefix="/home")
@@ -19,9 +18,9 @@ app.include_router(annotations, prefix="/annotations")
 app.include_router(profile, prefix="/profile")
 
 origin = {
-    'http://localhost:5174',
-    'https://psycoadmin.netlify.app',
-    'http://127.0.0.1:8080/',
+    "http://localhost:5173",
+    "https://psycoadmin.netlify.app",
+    "http://127.0.0.1:8080/",
 }
 
 app.add_middleware(
