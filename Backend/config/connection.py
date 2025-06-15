@@ -7,18 +7,19 @@ import os
 load_dotenv()
 
 
-password = os.getenv('pass')
-user = os.getenv('mail')
+password = quote_plus((os.getenv("pass")))
+user = quote_plus(os.getenv("mail"))
+string_connection = f"mongodb+srv://{user}:{password}@ecr-projects.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000"
 
 user = quote_plus(user)
-connection = MongoClient(f"mongodb+srv://nickstark91:iErEx3vY5Fcq3i8e@ecrprojects.oingc.mongodb.net/")
+connection = MongoClient(string_connection)
 db = connection["PsycoAdmin"]
 
 user_collection = db["User"]
 home_collection = db["Home"]
 annotations_collection = db["Annotations"]
 
-def get_collection(collection: str, myDB = db):
+
+def get_collection(collection: str, myDB=db):
     response = myDB[f"{collection}"]
     return response
-
