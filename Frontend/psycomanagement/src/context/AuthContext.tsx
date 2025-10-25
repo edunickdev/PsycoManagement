@@ -1,15 +1,36 @@
-/* eslint-disable react/prop-types */
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 import bcrypt from "bcryptjs";
 import { API_BASE_URL } from "../config/elementals";
 
-export const AuthTherapist = createContext();
+interface User {
+  token: string;
+  id: string;
+}
 
-export const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+interface AuthContextType {
+  user: User | null;
+  mode: boolean;
+  setModeAuth: (value: boolean) => void;
+  postSignIn: ({ data }: { data: any }) => Promise<any>;
+  postSignUp: ({ data }: { data: any }) => Promise<any>;
+  getToken: () => string | null;
+  getId: () => string | null;
+  logOff: () => void;
+}
+
+export const AuthTherapist = createContext<AuthContextType | undefined>(
+  undefined
+);
+
+interface AuthContextProviderProps {
+  children: ReactNode;
+}
+
+export const AuthContextProvider = ({ children }: AuthContextProviderProps) => {
+  const [user, setUser] = useState<User | null>(null);
   const [mode, setMode] = useState(false);
 
-  const postSignUp = async ({ data }) => {
+  const postSignUp = async ({ data }: { data: any }): Promise<any> => {
     const urlApi = `${API_BASE_URL}auth/sign-up`;
     const hashedPassword = await bcrypt.hash(data.Password, 10);
     const requestData = {
@@ -27,7 +48,7 @@ export const AuthContextProvider = ({ children }) => {
     return resData;
   };
 
-  const postSignIn = async ({ data }) => {
+  const postSignIn = async ({ data }: { data: any }): Promise<any> => {
     const urlApi = `${API_BASE_URL}auth/login`;
     const requestData = {
       email: data.Email,
@@ -45,27 +66,27 @@ export const AuthContextProvider = ({ children }) => {
     return resData;
   };
 
-  const storeToken = (data) => {
+  const storeToken = (data: User) => {
     sessionStorage.setItem("token", data.token);
     sessionStorage.setItem("id", data.id);
   };
 
-  const getToken = () => {
+  const getToken = (): string | null => {
     const token = sessionStorage.getItem("token");
     return token;
   };
 
-  const getId = () => {
+  const getId = (): string | null => {
     const id = sessionStorage.getItem("id");
     return id;
   };
 
-  const logOff = () => {
+  const logOff = (): void => {
     sessionStorage.removeItem("token");
     setUser(null);
   };
 
-  const setModeAuth = (value) => {
+  const setModeAuth = (value: boolean): void => {
     setMode(value);
   };
 
@@ -88,5 +109,9 @@ export const AuthContextProvider = ({ children }) => {
 };
 
 export const TherapistAuth = () => {
-  return useContext(AuthTherapist);
+  const context = useContext(AuthTherapist);
+  if (context === undefined) {
+    throw new Error("TherapistAuth must be used within an AuthContextProvider");
+  }
+  return context;
 };

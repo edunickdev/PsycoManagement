@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { ReactNode } from "react";
 import AuthPage from "../pages/AuthPage";
 import HomePage from "../pages/HomePage";
 import { TherapistAuth } from "../context/AuthContext";
@@ -10,11 +10,11 @@ import Navbar from "../components/Navbar/mainNavbar";
 import ProfilePage from "../pages/ProfilePage";
 import RecoverPage from "../pages/RecoverPage";
 
-export const AppRouter = () => {
+export const AppRouter = (): JSX.Element => {
   const { user } = TherapistAuth();
 
-  const RequireAuth = ({ children }) => {
-    return user ? children : <Navigate to="/home" />;
+  const RequireAuth = ({ children }: { children: ReactNode }): JSX.Element => {
+    return user ? <>{children}</> : <Navigate to="/auth" />;
   };
 
   return (
