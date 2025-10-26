@@ -9,7 +9,7 @@ load_dotenv()
 
 password = quote_plus((os.getenv("pass")))
 user = quote_plus(os.getenv("mail"))
-string_connection = f"mongodb+srv://{user}:{password}@ecr-projects.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000"
+string_connection = f"mongodb+srv://{user}:{password}@ecrprojects.oingc.mongodb.net/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000"
 
 user = quote_plus(user)
 connection = MongoClient(string_connection)
