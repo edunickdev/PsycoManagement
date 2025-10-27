@@ -13,6 +13,8 @@ user = quote_plus(os.getenv("mail"))
 string_connection = f"mongodb+srv://{user}:{password}@ecrprojects.oingc.mongodb.net/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000"
 
 user = quote_plus(user)
+
+print(string_connection)
 connection = MongoClient(string_connection)
 db = connection["PsycoAdmin"]
 
