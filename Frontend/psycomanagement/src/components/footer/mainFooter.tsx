@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Popover,
   PopoverContent,
@@ -5,7 +6,7 @@ import {
 } from "@nextui-org/react";
 import { staticFiles } from "../../config/statics";
 
-const Footer = () => {
+const Footer: React.FC = () => {
   return (
     <footer className="col-span-12 flex justify-center items-center py-2 bg-blue-900 fixed bottom-0 left-0 right-0 z-30">
       <span className="text-center font-semibold text-gray-400">

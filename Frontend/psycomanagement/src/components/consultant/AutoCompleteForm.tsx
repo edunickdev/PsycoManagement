@@ -1,8 +1,14 @@
-/* eslint-disable react/prop-types */
+import React from 'react';
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
 import { Controller, useForm } from "react-hook-form";
 
-const AutocompleteForm = ({ name, defaultValue, defaultInputValue }) => {
+interface AutocompleteFormProps {
+    name: string;
+    defaultValue: string;
+    defaultInputValue: string;
+}
+
+const AutocompleteForm: React.FC<AutocompleteFormProps> = ({ name, defaultValue, defaultInputValue }) => {
   const listTD = ["CC", "TI", "CE", "PA", "RC", "NIT", "RUT", "DNI"];
   const {
     control,
@@ -34,7 +40,8 @@ const AutocompleteForm = ({ name, defaultValue, defaultInputValue }) => {
           color="primary"
           labelPlacement="outside"
           defaultInputValue={defaultInputValue}
-          error={errors[name]}
+          isInvalid={!!errors[name]}
+          errorMessage={errors[name]?.message as string}
         >
           {listTD.map((item, index) => (
             <AutocompleteItem key={index} value={item} color="primary">

@@ -1,6 +1,7 @@
+import React from 'react';
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Checkbox } from "@nextui-org/react";
 
-const EventForm = () => {
+const EventForm: React.FC = () => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 

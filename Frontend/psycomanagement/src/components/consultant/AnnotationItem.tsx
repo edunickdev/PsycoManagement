@@ -1,6 +1,7 @@
+import React from 'react';
 import Field from "./field";
 
-const AnnotationItem = () => {
+const AnnotationItem: React.FC = () => {
   return (
     <>
       <div className="col-span-12 bg-orange-200 h-44 p-3 rounded-md text-tiny flex flex-col overflow-y-auto my-1">

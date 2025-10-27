@@ -1,16 +1,22 @@
+import React from 'react';
 import { Button, Input } from "@nextui-org/react";
 import { useForm, Controller } from "react-hook-form";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast, TypeOptions } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 import { TherapistAuth } from "../../context/AuthContext";
 
-const ContentSignUp = () => {
+interface NotifyParams {
+    text: string;
+    type: TypeOptions;
+}
+
+const ContentSignUp: React.FC = () => {
   const { postSignUp, postSignIn, mode, setModeAuth } = TherapistAuth();
 
   const route = useNavigate();
 
-  const notify = ({ text, type }) => {
+  const notify = ({ text, type }: NotifyParams) => {
     toast[type](text, {
       position: "top-right",
       autoClose: 5000,

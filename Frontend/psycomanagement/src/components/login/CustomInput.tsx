@@ -1,6 +1,16 @@
-/* eslint-disable react/prop-types */
+import React from 'react';
+import { UseFormRegister, FieldErrors } from 'react-hook-form';
 
-const CustomInput = ({ name, label, type, validations = {}, register, errors }) => {
+interface CustomInputProps {
+    name: string;
+    label: string;
+    type: string;
+    validations?: any;
+    register: UseFormRegister<any>;
+    errors: FieldErrors;
+}
+
+const CustomInput: React.FC<CustomInputProps> = ({ name, label, type, validations = {}, register, errors }) => {
 
   return (
     <div className="flex flex-col justify-start">

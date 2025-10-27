@@ -1,21 +1,45 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
+import React, { useState } from "react";
 import { Button, Checkbox, Tab, Tabs, Textarea } from "@nextui-org/react";
-import { useState } from "react";
-import { Controller, set, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import SectionForm from "./SectionForm";
 import AutocompleteForm from "./AutoCompleteForm";
 import {
-  get_annotations_by_consultant,
   saveConsultant,
   updateConsultant,
 } from "../../services/consultant/consultantServices";
 import AnnotationSection from "./AnnotationSection";
 
-const ConsultantForm = ({ data: myData, onClose, isNew = false }) => {
+interface ConsultantData {
+  names: string;
+  last_names: string;
+  phone: string;
+  type_document: string;
+  document_number: string;
+  email: string;
+  address: string;
+  city: string;
+  country: string;
+  regimen: string;
+  eps: string;
+  status: string;
+  birth_date: string;
+  isChild: boolean;
+  names_responsible?: string;
+  phone_responsible?: string;
+  email_responsible?: string;
+  annotations: number;
+}
+
+interface ConsultantFormProps {
+  data: ConsultantData;
+  onClose: () => void;
+  isNew?: boolean;
+}
+
+const ConsultantForm: React.FC<ConsultantFormProps> = ({ data: myData, onClose, isNew = false }) => {
   const [isEdit, setIsEdit] = useState(isNew ? true : false);
   const [isChild, setIsChild] = useState(myData.isChild);
-  const [oldData, setOldData] = useState({});
+  const [oldData, setOldData] = useState<Partial<ConsultantData>>({});
 
   const {
     control,

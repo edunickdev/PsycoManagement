@@ -1,9 +1,17 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Cards from "./cards";
 import { getData } from "../../services/home/homeServices";
 
-const SectionCards = () => {
-  const [data, setData] = useState([]);
+interface CardData {
+  id: number;
+  subtitle: string;
+  image: string;
+  description: string;
+  title: string;
+}
+
+const SectionCards: React.FC = () => {
+  const [data, setData] = useState<CardData[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -1,6 +1,7 @@
+import React from 'react';
 import { staticFiles } from "../../config/statics";
 
-const BgSignUp = () => {
+const BgSignUp: React.FC = () => {
   return (
     <>
       <div className="h-auto col-span-12">

@@ -1,11 +1,28 @@
-/* eslint-disable react/prop-types */
+import React from 'react';
 import { Button, Modal, ModalBody, ModalContent, ModalHeader, useDisclosure } from "@nextui-org/react";
 import ConsultantForm from "./consultantForm";
 
-const ConsultantItem = ({ consultant }) => {
+interface Consultant {
+  id_consultant: number;
+  names: string;
+  last_names: string;
+  birth_date: string;
+  phone: string;
+  status: string;
+  creation_date: string;
+  last_update: string;
+  annotations: number;
+  isChild: boolean;
+}
+
+interface ConsultantItemProps {
+  consultant: Consultant;
+}
+
+const ConsultantItem: React.FC<ConsultantItemProps> = ({ consultant }) => {
 
   const initials = consultant.names.split("")[0] + consultant.last_names.split("")[0];
-  const age = new Date().getFullYear() - consultant.birth_date.split("/")[2];
+  const age = new Date().getFullYear() - parseInt(consultant.birth_date.split("/")[2]);
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   return (

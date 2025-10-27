@@ -1,16 +1,22 @@
-import { React, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Card, CardHeader, CardBody, CardFooter, Divider, ScrollShadow } from "@nextui-org/react";
 import EventForm from "../EventForm";
 import { AuthTherapist } from "../../../context/AuthContext";
 import ConsultantSection from "./ConsultantSection";
 
-//import ConsultantSection from "./ConsultantSection";
+interface Consultant {
+    id_consultant: number;
+    names: string;
+    last_names: string;
+    birth_date: string;
+    phone: string;
+}
 
-const ConsultantListCard = () => {
+const ConsultantListCard: React.FC = () => {
     const TherapistAuth = useContext(AuthTherapist);
 
     const id = TherapistAuth.getId();
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<Consultant[]>([]);
     //const [filterData, setFilterData] = useState([]);
 
     const getData = () => {

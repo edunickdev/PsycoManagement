@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardHeader, CardBody, CardFooter, ScrollShadow } from "@nextui-org/react";
 
-const StatesCalendar = () => {
+const StatesCalendar: React.FC = () => {
 
     return (
         <div className="col-span-2 mt-32 mr-8">

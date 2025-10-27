@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Table,
   TableBody,
@@ -7,7 +8,7 @@ import {
   TableRow,
 } from "@nextui-org/react";
 
-const AnnotationSection = () => {
+const AnnotationSection: React.FC = () => {
   return (
     <Table aria-label="Example static collection table">
       <TableHeader>

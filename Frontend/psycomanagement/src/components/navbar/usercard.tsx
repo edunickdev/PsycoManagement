@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Avatar,
   Card,
@@ -9,7 +10,7 @@ import {
 import { TherapistAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-export const UserCard = () => {
+export const UserCard: React.FC = () => {
   const { user, setModeAuth, logOff } = TherapistAuth();
   const route = useNavigate();
 

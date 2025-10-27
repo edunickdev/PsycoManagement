@@ -1,19 +1,33 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ConsultantItem from "./consultantItem";
 import { TherapistAuth } from "../../context/AuthContext";
 import { getConsultants } from "../../services/therapist/therapistServices";
 
-const SectionConsultant = ({ inputValue }) => {
+interface Consultant {
+  id_consultant: number;
+  names: string;
+  last_names: string;
+  birth_date: string;
+  phone: string;
+  status: string;
+  creation_date: string;
+  last_update: string;
+  annotations: number;
+  isChild: boolean;
+}
 
+interface SectionConsultantProps {
+  inputValue: string;
+}
+
+const SectionConsultant: React.FC<SectionConsultantProps> = ({ inputValue }) => {
   const { getId } = TherapistAuth();
   const id = getId();
 
-  const [data, setData] = useState([]);
-  const [filterData, setFilterData] = useState([]);
+  const [data, setData] = useState<Consultant[]>([]);
+  const [filterData, setFilterData] = useState<Consultant[]>([]);
 
-  const filterConsultants = (inputValue) => {
+  const filterConsultants = (inputValue: string) => {
     const lowerInputValue = inputValue.toLowerCase();
     const filteredData = data.filter((consultant) =>
       (consultant.names && consultant.names.toLowerCase().includes(lowerInputValue)) ||

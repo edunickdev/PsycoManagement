@@ -1,8 +1,22 @@
-/* eslint-disable react/prop-types */
+import React from 'react';
 import { Input } from "@nextui-org/react";
-import { Controller } from "react-hook-form";
+import { Controller, Control, FieldError } from "react-hook-form";
 
-const SectionForm = ({
+interface SectionFormProps {
+  isNew: boolean;
+  name: string[];
+  control: Control<any>;
+  defaultValue: string[];
+  label: string[];
+  error: (FieldError | undefined)[];
+  isEdit: boolean;
+  amountElements: number;
+  colSpan: number;
+  withWrap?: boolean;
+  rules: any[];
+}
+
+const SectionForm: React.FC<SectionFormProps> = ({
   isNew,
   name,
   control,
@@ -15,7 +29,7 @@ const SectionForm = ({
   withWrap = true,
   rules
 }) => {
-  const cols = ( !withWrap ) ? colSpan : 12 / amountElements;
+  const cols = !withWrap ? colSpan : 12 / amountElements;
 
   const elements = [];
 
@@ -34,7 +48,7 @@ const SectionForm = ({
               size="sm"
               label={label[i]}
               labelPlacement="outside"
-              errorMessage={error[i] ? error[i].message : ""}
+              errorMessage={error[i] ? error[i]?.message : ""}
               readOnly={!isEdit}
               className={!withWrap ? "" : `col-span-${colSpan}`}
             />

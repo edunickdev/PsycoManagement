@@ -1,4 +1,6 @@
-const Field = () => {
+import React from 'react';
+
+const Field: React.FC = () => {
   return (
     <div className="flex flex-col p-1 bg-green-200 rounded-md my-1">
       <span className="font-semibold p-1">Campo: </span>

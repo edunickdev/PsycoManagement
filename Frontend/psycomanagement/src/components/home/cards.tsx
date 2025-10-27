@@ -1,10 +1,21 @@
-/* eslint-disable react/prop-types */
+import React from 'react';
 import { Button, Card, CardFooter, Image, ModalFooter, Modal, ModalContent, ModalHeader, ModalBody, useDisclosure } from "@nextui-org/react";
 import { staticFiles } from "../../config/statics";
 import { useNavigate } from "react-router-dom";
 import { TherapistAuth } from "../../context/AuthContext";
 
-const Cards = ({ data }) => {
+interface CardData {
+  subtitle: string;
+  image: string;
+  description: string;
+  title: string;
+}
+
+interface CardsProps {
+  data: CardData;
+}
+
+const Cards: React.FC<CardsProps> = ({ data }) => {
   const { user } = TherapistAuth();
   const { subtitle, image, description, title } = data;
   const {isOpen, onOpen, onOpenChange} = useDisclosure();

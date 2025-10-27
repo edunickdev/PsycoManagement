@@ -1,10 +1,20 @@
-/* eslint-disable react/prop-types */
-import { Card, CardHeader, CardBody, CardFooter, Avatar, AvatarIcon } from "@nextui-org/react";
+import React from 'react';
+import { Card, CardHeader, CardBody, Avatar, AvatarIcon } from "@nextui-org/react";
 
-const ConsultantSection = ({ consultant }) => {
+interface Consultant {
+    names: string;
+    last_names: string;
+    birth_date: string;
+    phone: string;
+}
 
-    const initials = consultant.names.split("")[0] + consultant.last_names.split("")[0];
-    const age = new Date().getFullYear() - consultant.birth_date.split("/")[2];
+interface ConsultantSectionProps {
+    consultant: Consultant;
+}
+
+const ConsultantSection: React.FC<ConsultantSectionProps> = ({ consultant }) => {
+
+    const age = new Date().getFullYear() - parseInt(consultant.birth_date.split("/")[2]);
 
     return (
         <>
