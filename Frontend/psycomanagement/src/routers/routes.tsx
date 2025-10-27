@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ReactNode } from "react";
 import AuthPage from "../pages/AuthPage";
 import HomePage from "../pages/HomePage";
-import { TherapistAuth } from "../context/AuthContext";
+import { useAuthStore } from "../context/stores";
 import ConsultanPage from "../pages/ConsultanPage";
 import AgendaPage from "../pages/AgendaPage";
 import EventForm from "../components/calendar/EventForm";
@@ -11,7 +11,7 @@ import ProfilePage from "../pages/ProfilePage";
 import RecoverPage from "../pages/RecoverPage";
 
 export const AppRouter = (): JSX.Element => {
-  const { user } = TherapistAuth();
+  const { user } = useAuthStore();
 
   const RequireAuth = ({ children }: { children: ReactNode }): JSX.Element => {
     return user ? <>{children}</> : <Navigate to="/auth" />;

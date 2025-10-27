@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useInfoProfile } from "../../context/stores";
+import { useAuthStore } from "../../context/stores";
 import { API_BASE_URL } from "../../config/elementals";
 
 interface UseFetchInfoResult {
@@ -8,8 +8,8 @@ interface UseFetchInfoResult {
 }
 
 const useFetchInfo = (): UseFetchInfoResult => {
-  const setCurrentInfo = useInfoProfile((state) => state.setInfoProfile);
-  const myInfo = useInfoProfile((state) => state.infoProfile);
+  const setCurrentInfo = useAuthStore((state) => state.setInfoProfile);
+  const myInfo = useAuthStore((state) => state.infoProfile);
   const [loading, setLoading] = useState<boolean>(true);
 
   const requestInfo = {

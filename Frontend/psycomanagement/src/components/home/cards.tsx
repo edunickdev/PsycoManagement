@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Card, CardFooter, Image, ModalFooter, Modal, ModalContent, ModalHeader, ModalBody, useDisclosure } from "@nextui-org/react";
 import { staticFiles } from "../../config/statics";
 import { useNavigate } from "react-router-dom";
-import { TherapistAuth } from "../../context/AuthContext";
+import { useAuthStore } from "../../context/stores";
 
 interface CardData {
   subtitle: string;
@@ -16,7 +16,7 @@ interface CardsProps {
 }
 
 const Cards: React.FC<CardsProps> = ({ data }) => {
-  const { user } = TherapistAuth();
+  const { user } = useAuthStore();
   const { subtitle, image, description, title } = data;
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const route = useNavigate();

@@ -9,10 +9,10 @@ import {
 } from "@nextui-org/react";
 import { staticFiles } from "../../config/statics";
 import { UserCard } from "../navbar/usercard";
-import { TherapistAuth } from "../../context/AuthContext";
+import { useAuthStore } from "../../context/stores";
 
 const Navbar: React.FC = () => {
-  const { user } = TherapistAuth();
+  const { user } = useAuthStore();
 
   return (
     <nav className="grid grid-cols-12 grid-rows-5 my-2 fixed w-full py-1 z-30 h-20 pb-5">

@@ -7,11 +7,11 @@ import {
   CardHeader,
   Button,
 } from "@nextui-org/react";
-import { TherapistAuth } from "../../context/AuthContext";
+import { useAuthStore } from "../../context/stores";
 import { useNavigate } from "react-router-dom";
 
 export const UserCard: React.FC = () => {
-  const { user, setModeAuth, logOff } = TherapistAuth();
+  const { user, setModeAuth, logOff } = useAuthStore();
   const route = useNavigate();
 
   const shortName =  user ? user.names : "";

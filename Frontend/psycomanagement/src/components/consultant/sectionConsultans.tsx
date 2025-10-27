@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ConsultantItem from "./consultantItem";
-import { TherapistAuth } from "../../context/AuthContext";
+import { useAuthStore } from "../../context/stores";
 import { getConsultants } from "../../services/therapist/therapistServices";
 
 interface Consultant {
@@ -21,7 +21,7 @@ interface SectionConsultantProps {
 }
 
 const SectionConsultant: React.FC<SectionConsultantProps> = ({ inputValue }) => {
-  const { getId } = TherapistAuth();
+  const { getId } = useAuthStore();
   const id = getId();
 
   const [data, setData] = useState<Consultant[]>([]);

@@ -4,7 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import { ToastContainer, toast, TypeOptions } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
-import { TherapistAuth } from "../../context/AuthContext";
+import { useAuthStore } from "../../context/stores";
 
 interface NotifyParams {
     text: string;
@@ -12,7 +12,7 @@ interface NotifyParams {
 }
 
 const ContentSignUp: React.FC = () => {
-  const { postSignUp, postSignIn, mode, setModeAuth } = TherapistAuth();
+  const { postSignUp, postSignIn, mode, setModeAuth } = useAuthStore();
 
   const route = useNavigate();
 
