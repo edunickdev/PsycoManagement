@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Button,
   Input,
@@ -11,21 +12,18 @@ import Footer from "../components/footer/mainFooter";
 import SectionConsultant from "../components/consultant/sectionConsultans";
 import ConsultantForm from "../components/consultant/consultantForm";
 import NewData from "../components/consultant/DataObject";
-import SearchIcon from '../assets/search.svg';
-import { useState } from "react";
+import SearchIcon from "../assets/search.svg";
 
-const ConsultanPage = () => {
+const ConsultanPage: React.FC = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const searchIconStyle = {
-    width: '20px',  
-    height: '20px', 
-    color: 'primary',
+  const searchIconStyle: React.CSSProperties = {
+    width: "20px",
+    height: "20px",
   };
 
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState<string>("");
 
-  
   return (
     <div className="grid grid-cols-12">
       <div className="col-span-4 mt-24 px-10">
@@ -35,7 +33,9 @@ const ConsultanPage = () => {
           color="primary"
           size="sm"
           type="search"
-          startContent={<img src={SearchIcon} alt="Search Icon" style={searchIconStyle}/>}
+          startContent={
+            <img src={SearchIcon} alt="Search Icon" style={searchIconStyle} />
+          }
           placeholder="Busca tu consultante aquí..."
           label="Encuentra tu consultante más rápido"
           labelPlacement="outside"
@@ -49,7 +49,12 @@ const ConsultanPage = () => {
           onPress={onOpen}
         >
           Agregar nuevo consultante
-          <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center" size="2xl">
+          <Modal
+            isOpen={isOpen}
+            onOpenChange={onOpenChange}
+            placement="center"
+            size="2xl"
+          >
             <ModalContent>
               {(onClose) => (
                 <>
@@ -57,7 +62,11 @@ const ConsultanPage = () => {
                     <h3>Registrar nuevo Consultante</h3>
                   </ModalHeader>
                   <ModalBody>
-                    <ConsultantForm onClose={onClose} isNew={true} data={NewData} />
+                    <ConsultantForm
+                      onClose={onClose}
+                      isNew={true}
+                      data={NewData}
+                    />
                   </ModalBody>
                 </>
               )}

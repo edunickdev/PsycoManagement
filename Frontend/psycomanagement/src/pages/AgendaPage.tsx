@@ -1,19 +1,31 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import Footer from "../components/footer/mainFooter";
 import CustomCalendar from "../components/calendar/Calendar";
 import ConsultantListCard from "../components/calendar/consultants-list/ConsultantsList";
 import StatesCalendar from "../components/calendar/StatesCalendar";
-import { useEffect, useState } from "react";
 import { TherapistAuth } from "../context/AuthContext";
 import { API_BASE_URL } from "../config/elementals";
 
-const AgendaPage = () => {
+// Define the interface for an event
+interface IEvent {
+  // Assuming a basic event structure. Adjust if you have more specific fields.
+  id: number | string;
+  title: string;
+  start: string | Date;
+  end: string | Date;
+  [key: string]: any; // Allow other properties
+}
+
+const AgendaPage: React.FC = () => {
   const { getId } = TherapistAuth();
-  const id = getId();
+  const id: string | null = getId();
 
-  const [eventList, setEventList] = useState([]);
+  const [eventList, setEventList] = useState<IEvent[]>([]);
 
-  const get_events = () => {
+  const get_events = (): void => {
+    if (!id) return; // Don't fetch if id is null
+
     fetch(`${API_BASE_URL}events/${id}`, {
       method: "GET",
       headers: {
@@ -22,8 +34,8 @@ const AgendaPage = () => {
       },
     })
       .then((response) => response.json())
-      .then((data) => {
-        setEventList(data["events"]);
+      .then((data: { events: IEvent[] }) => {
+        setEventList(data.events);
       })
       .catch((error) => {
         console.log(error);
@@ -32,7 +44,7 @@ const AgendaPage = () => {
 
   useEffect(() => {
     get_events();
-  }, []);
+  }, [id]); // Add id as a dependency to refetch if it changes
 
   return (
     <div className="grid grid-cols-12">

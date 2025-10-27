@@ -1,15 +1,15 @@
+import React, { useState } from "react";
 import { MdEdit, MdCancel } from "react-icons/md";
 import { Button } from "@nextui-org/react";
-import { useState } from "react";
 import useFetchInfo from "../services/profile/useFetchInfo";
 import BasicInfoComponent from "../components/profile/basicInfoComponent";
 
-const ProfilePage = () => {
-  const [edit, setEdit] = useState(false);
+const ProfilePage: React.FC = () => {
+  const [edit, setEdit] = useState<boolean>(false);
 
   const { myInfo, loading } = useFetchInfo();
 
-  const toggleEdit = () => setEdit(!edit);
+  const toggleEdit = (): void => setEdit(!edit);
 
   return (
     <>
@@ -35,7 +35,7 @@ const ProfilePage = () => {
               <MdEdit className="text-tertiary" />
             </Button>
             <Button
-              onPress={edit == false ? "" : toggleEdit}
+              onPress={edit == false ? undefined : toggleEdit}
               disabled={edit}
               isIconOnly
               className={`${

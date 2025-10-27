@@ -1,6 +1,6 @@
 import { API_BASE_URL } from "../../config/elementals";
 
-export const getData = () => {
+export const getData = (): Promise<any> => {
   return fetch(`${API_BASE_URL}home/`, {
     method: "GET",
     headers: {
@@ -10,7 +10,7 @@ export const getData = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      return data
+      return data;
     })
     .catch((error) => {
       console.error("Error fetching data:", error);

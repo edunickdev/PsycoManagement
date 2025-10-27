@@ -5,6 +5,7 @@ import { API_BASE_URL } from "../config/elementals";
 interface User {
   token: string;
   id: string;
+  names: string;
 }
 
 interface AuthContextType {

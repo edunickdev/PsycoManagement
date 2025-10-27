@@ -1,8 +1,35 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Avatar, AvatarIcon } from "@nextui-org/react";
 
-const ContentEventView = ({ selectedEvent, isOpen, onOpenChange }) => {
+import React from "react";
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  Avatar,
+  AvatarIcon,
+} from "@nextui-org/react";
+
+interface IEvent {
+  id?: number | string;
+  title: string;
+  start: Date;
+  end: Date;
+  [key: string]: any;
+}
+
+interface ContentEventViewProps {
+  selectedEvent: IEvent | null;
+  isOpen: boolean;
+  onOpenChange: () => void;
+}
+
+const ContentEventView: React.FC<ContentEventViewProps> = ({
+  selectedEvent,
+  isOpen,
+  onOpenChange,
+}) => {
   return (
     <>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="sm">
@@ -24,10 +51,16 @@ const ContentEventView = ({ selectedEvent, isOpen, onOpenChange }) => {
                 <span>{selectedEvent?.title}</span>
               </ModalBody>
               <ModalFooter className="flex justify-between">
-                <Button className="btn-download bg-gradient-to-br from-[#004493] to-[#005BC4] text-white" onPress={onClose}>
+                <Button
+                  className="btn-download bg-gradient-to-br from-[#004493] to-[#005BC4] text-white"
+                  onPress={onClose}
+                >
                   Descargar HC
                 </Button>
-                <Button className="btn-close bg-zinc-400 text-white" variant="light">
+                <Button
+                  className="btn-close bg-zinc-400 text-white"
+                  variant="light"
+                >
                   Editar Evento
                 </Button>
               </ModalFooter>
@@ -37,6 +70,6 @@ const ContentEventView = ({ selectedEvent, isOpen, onOpenChange }) => {
       </Modal>
     </>
   );
-}
+};
 
 export default ContentEventView;
