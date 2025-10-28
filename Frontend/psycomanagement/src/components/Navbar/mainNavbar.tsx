@@ -8,7 +8,7 @@ import {
   User as NextUiUser,
 } from "@nextui-org/react";
 import { staticFiles } from "../../config/statics";
-import { UserCard } from "../navbar/usercard";
+import { UserCard } from "./usercard";
 import { useAuthStore } from "../../context/stores";
 
 const Navbar: React.FC = () => {

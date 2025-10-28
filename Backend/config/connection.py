@@ -14,7 +14,6 @@ string_connection = f"mongodb+srv://{user}:{password}@ecrprojects.oingc.mongodb.
 
 user = quote_plus(user)
 
-print(string_connection)
 connection = MongoClient(string_connection)
 db = connection["PsycoAdmin"]
 

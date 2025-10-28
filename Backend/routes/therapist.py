@@ -39,7 +39,7 @@ async def login_therapist( data: AuthUserRequest):
     try:
         user = verify_therapist_credentials(data.email, data.password)
         return user
-    except:
+    except:  # noqa: E722
         return JSONResponse(
             content=responseEntity(
                 message="Oh no algo fallo en la petición",
