@@ -2,3 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    --primary: 0 213 255;
+    --secondary: 0 136 204;
+    --quinary: 10 8 59;
+    --navy-900: 10 8 59;
+    --glass: rgba(255, 255, 255, 0.1);
+  }
+
+  body {
+    @apply bg-quinary text-white selection:bg-primary/30 selection:text-white antialiased;
+    font-family: "Inter", sans-serif;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-quinary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-white/10 rounded-full border-2 border-quinary hover:bg-white/20 transition-colors;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+
+  .glass-hover {
+    @apply hover:bg-white/20 transition-all duration-300;
+  }
+}

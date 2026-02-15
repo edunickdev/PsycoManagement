@@ -9,7 +9,7 @@ load_dotenv()
 
 password = quote_plus((os.getenv("pass")))
 user = quote_plus(os.getenv("mail"))
-string_connection = f"mongodb+srv://nickstark91:6FdJuEgoL37fwBlA@ecrprojects.oingc.mongodb.net/"
+string_connection = "mongodb+srv://nickstark91:6FdJuEgoL37fwBlA@ecrprojects.oingc.mongodb.net/"
 
 user = quote_plus(user)
 

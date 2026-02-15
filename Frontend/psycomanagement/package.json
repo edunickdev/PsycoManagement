@@ -10,7 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@nextui-org/react": "^2.2.9",
     "@tailwindcss/vite": "^4.1.10",
     "bcryptjs": "^2.4.3",
     "dayjs": "^1.11.10",

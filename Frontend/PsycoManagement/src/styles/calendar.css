@@ -1,0 +1,12 @@
+.rbc-event{
+    background: rgb(44, 186, 44);
+}
+
+.rbc-toolbar button{
+    background: #004493 !important;
+    color: white !important;
+}
+
+.rbc-toolbar-label{
+    font-weight: bold;
+}

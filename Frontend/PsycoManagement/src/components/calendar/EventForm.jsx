@@ -1,46 +1,20 @@
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure, Input, Checkbox } from "@nextui-org/react";
+import React from 'react';
+import Input from '../atoms/Input';
+import Button from '../atoms/Button';
 
-const EventForm = () => {
-
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-    return (
-        <>
-            <Button className="bg-[#004493] text-white" radius="sm" onPress={onOpen}>Agregar Evento</Button>
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-                <ModalContent>
-                    {(onClose) => (
-                        <>
-                            <ModalHeader className="flex flex-col gap-1 bg-blue-50">Crear Evento</ModalHeader>
-                            <ModalBody className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                    <Input variant="underlined" type="text" label="Nombre Consultante:" size="sm"/>
-                                    <Input variant="underlined" type="text" label="Nombre evento:" size="sm"/>
-                                </div>
-                                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                    <Input variant="underlined" type="text" label="Empieza:" size="sm"/>
-                                    <Input variant="underlined" type="text" label="Termina:" size="sm"/>
-                                </div>
-                                <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-                                    
-                                    <Input variant="underlined" type="text" label="Oficina:"/>
-                                </div>
-                            </ModalBody>
-                            <ModalFooter className="justify-between">
-                                <Checkbox>Pago</Checkbox>
-                                <Button color="danger" variant="light" onPress={onClose}>
-                                    Close
-                                </Button>
-                                <Button className="btn-download bg-gradient-to-br from-[#004493] to-[#005BC4] text-white" onPress={onClose}>
-                                    Guardar
-                                </Button>
-                            </ModalFooter>
-                        </>
-                    )}
-                </ModalContent>
-            </Modal>
-        </>
-    )
-}
+const EventForm = ({ event, onClose, onSave }) => {
+  return (
+    <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); onSave(event); }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Input label="Título" placeholder="Motivo de la consulta" defaultValue={event?.title} />
+        <Input label="Fecha" type="date" defaultValue={event ? dayjs(event.start).format('YYYY-MM-DD') : ''} />
+      </div>
+      <div className="flex justify-end space-x-3 mt-8">
+        <Button variant="ghost" onClick={onClose}>Cancelar</Button>
+        <Button variant="primary" type="submit">Guardar Cita</Button>
+      </div>
+    </form>
+  );
+};
 
 export default EventForm;
