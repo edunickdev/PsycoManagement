@@ -1,6 +1,9 @@
 import { API_BASE_URL } from "../../config/elementals";
 
 export const saveConsultant = (myData) => {
+
+  console.loga(API_BASE_URL);
+  
   return fetch(`${API_BASE_URL}consultants/new-consultant`, {
     method: "POST",
     body: JSON.stringify(myData),
